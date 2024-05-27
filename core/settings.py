@@ -14,6 +14,12 @@ from pathlib import Path
 import os
 import dj_database_url
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'denkdx0za',  # required
+    'API_KEY': 482328543211743,  # required
+    'API_SECRET': 'rPJHaGT36J8EK9wygmjN_tXBQEw'
+    }
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,6 +44,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 
 INSTALLED_APPS = [
     'paquete',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -59,6 +66,11 @@ INSTALLED_APPS = [
 
     'modelcluster',
     'taggit',
+    
+    'cloudinary',
+    'cloudinary_storage',
+    # 'wagtailcloudinary',
+    
 ]
 
 MIDDLEWARE = [
@@ -163,7 +175,11 @@ MEDIA_URL = '/media/'
 WAGTAIL_SITE_NAME = 'My Example Site'
 WAGTAILADMIN_BASE_URL = 'http://example.com'
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+
+WAGTAILIMAGES_IMAGE_MODEL = "paquete.CloudinaryImage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
