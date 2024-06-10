@@ -1,0 +1,11 @@
+{% load i18n wagtailcore_tags %}
+<div class="help-block">
+    <h2>{{ heading }}</h2>
+    <ul class="collapsible collapsed">
+        {% for child in chill %}
+        <li><a href="{{child.link}}">{{ child.title }}</a></li>
+        {% empty %}
+            <li>{% trans "No children found." %}</li>
+        {% endfor %}
+    </ul>
+</div>

@@ -43,6 +43,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 # Application definition
 
 INSTALLED_APPS = [
+    'home',
     'paquete',
 
     'django.contrib.admin',
