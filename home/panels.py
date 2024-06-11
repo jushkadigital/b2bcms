@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 
 
 def getEditPage(url,id):
-    final = f"{url}/cms/pages/{id}/edit"
+    final = f"https://{url}/cms/pages/{id}/edit"
     return final
 
 class ListChildsPanel(Panel):
