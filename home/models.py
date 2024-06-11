@@ -52,7 +52,7 @@ class Home(Page):
     ]
 
 
-    subpage_types = ['home.Inicio']
+    subpage_types = ['home.Inicio','home.Nosotros']
     api_fields = [
     ]
 
@@ -73,18 +73,13 @@ class Inicio(Page):
         ListSnippetPanel(modell=Destino),
         MultiFieldPanel([InlinePanel('faqInicio')],heading="Preguntas Frecuentes"),
     ]
-
     parent_page_types = ['home.Home']
-    @property
-    def get_child_pages(self):
-        return Destino.objects.all()
-
+    max_count_per_parent = 1
     subpage_types = ['paquete.IndexPaquete']
     api_fields = [
             APIField('galleryInicio'),
             APIField('paqueteTitulo'),
             APIField('destinoTitulo'),
-            APIField('get_child_pages',serializer=DestinosSnippetsSerializer()),
             APIField('faqInicio')
     ]
 
@@ -115,6 +110,97 @@ class Faq(Orderable):
             APIField('question'),
             APIField('answer')
             ]
+
+class Nosotros(Page):
+    background = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    )
+    titulo = models.CharField( max_length=100,verbose_name="Titulo")
+    subTitulo = models.CharField( max_length=100,verbose_name="Subtitulo")
+    parrafo = RichTextField(verbose_name="Parrafo")
+    imageParrafo = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    ) 
+    razonSocial = models.CharField(max_length=100 ,verbose_name= "Razon Social") 
+    numeroRuc = models.CharField(max_length=100 ,verbose_name= "Numero de Ruc") 
+    nombreComercial = models.CharField(max_length=100 ,verbose_name= "Nombre Comercial") 
+    certificadoAutorizacion = models.CharField(max_length=100 ,verbose_name= "Certificado de Autorizacion") 
+    content_panels = Page.content_panels + [
+        # TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
+        # MultiFieldPanel([InlinePanel('galleryInicio')],heading="Carousel de Imagenes"),
+        MultiFieldPanel([FieldPanel('background'),FieldPanel('titulo')],heading="Banner"),
+        MultiFieldPanel([
+        FieldRowPanel([MultiFieldPanel([FieldPanel('subTitulo'),FieldPanel('parrafo')],heading="Parrafo"),FieldPanel('imageParrafo')])],heading="Parrafo e Informacion"),
+        MultiFieldPanel([FieldRowPanel([FieldPanel('razonSocial'),FieldPanel('numeroRuc')]),FieldRowPanel([FieldPanel('nombreComercial'),FieldPanel('certificadoAutorizacion')])],heading="Informacion Legal"),
+        MultiFieldPanel([InlinePanel('estadisticasNosotros')],heading="Estadisticas de la Empresa"),
+        MultiFieldPanel([InlinePanel('valoresNosotros')],heading="Valores de la Empresa"),
+        MultiFieldPanel([InlinePanel('partnersNosotros')],heading="Partners"),
+        MultiFieldPanel([InlinePanel('certificadosNosotros')],heading="Certificados"),
+    ]
+    parent_page_types = ['home.Home']
+    max_count_per_parent = 1
+
+class Estadisticas(Orderable):
+    page = ParentalKey(Nosotros,on_delete=models.CASCADE , related_name = 'estadisticasNosotros')
+    redLet = models.CharField( max_length=50,verbose_name="Letra Roja")
+    grayLet = models.CharField( max_length=50,verbose_name="Letra Gris")
+    panels = [
+        FieldPanel('redLet'),
+        FieldPanel('grayLet'),
+    ]
+    api_fields = [
+            APIField('redLet'),
+            APIField('grayLet')
+            ]
+class Valores(Orderable):
+    page = ParentalKey(Nosotros,on_delete=models.CASCADE , related_name = 'valoresNosotros')
+    img = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    ) 
+    label = models.CharField( max_length=50,verbose_name="Nombre del valor")
+    panels = [
+        FieldPanel('img'),
+        FieldPanel('label'),
+    ]
+    api_fields = [
+            APIField('img'),
+            APIField('label')
+            ]
+
+class Partners(Orderable):
+    page = ParentalKey(Nosotros, on_delete=models.CASCADE , related_name = 'partnersNosotros')
+    image = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    )
+   
+    panels = [
+        FieldPanel('image'),
+    ]
+
+    api_fields = [
+            APIField('image'),
+            ]
+
+class Certificados(Orderable):
+    page = ParentalKey(Nosotros, on_delete=models.CASCADE , related_name = 'certificadosNosotros')
+    image = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    )
+   
+    panels = [
+        FieldPanel('image'),
+    ]
+
+    api_fields = [
+            APIField('image'),
+            ]
+
+
+
+
+
+
+
 # SNIPPETS WAGTAIL
 
 
