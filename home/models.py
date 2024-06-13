@@ -63,6 +63,9 @@ class Home(Page):
 class Inicio(Page):
     paqueteTitulo = models.CharField(max_length=30,verbose_name="Subtitulo Paquetes")
     destinoTitulo = models.CharField(max_length=30,verbose_name="Subtitulo Destinos")
+    formularioTitulo = models.CharField(max_length=75,verbose_name="Titulo Formulario")
+    formularioSubtitulo = models.CharField(max_length=75,verbose_name="Subtitulo Formulario")
+
     content_panels = Page.content_panels + [
         # TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
         # MultiFieldPanel([InlinePanel('galleryInicio')],heading="Carousel de Imagenes"),
@@ -72,6 +75,7 @@ class Inicio(Page):
         FieldPanel('destinoTitulo'),
         ListSnippetPanel(modell=Destino),
         MultiFieldPanel([InlinePanel('faqInicio')],heading="Preguntas Frecuentes"),
+        MultiFieldPanel([FieldPanel('formularioTitulo'),FieldPanel('formularioSubtitulo')],heading="formularioInicio")
     ]
     parent_page_types = ['home.Home']
     max_count_per_parent = 1
