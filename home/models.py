@@ -84,7 +84,9 @@ class Inicio(Page):
             APIField('galleryInicio'),
             APIField('paqueteTitulo'),
             APIField('destinoTitulo'),
-            APIField('faqInicio')
+            APIField('faqInicio'),
+            APIField('formularioInicio'),
+            APIField('formularioSubtitulo')
     ]
 
 
