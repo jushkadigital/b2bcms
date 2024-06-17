@@ -95,13 +95,18 @@ class GalleryCarousel(Orderable):
     image = models.ForeignKey(
         get_image_model_string(), on_delete=models.CASCADE, related_name='+'
     )
-   
+    carouselTitulo = models.CharField(max_length=50,verbose_name="Subtitulo Paquetes")
+    carouselDuracion = models.CharField(max_length=30,verbose_name="Subtitulo Paquetes")
     panels = [
         FieldPanel('image'),
+        FieldPanel('carouselTitulo'),
+        FieldPanel('carouselDuracion'),
     ]
 
     api_fields = [
             APIField('image'),
+            APIField('carouselTitulo'),
+            APIField('carouselDuracion'),
             ]
 
 class Faq(Orderable):
