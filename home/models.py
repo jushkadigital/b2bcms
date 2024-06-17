@@ -100,7 +100,7 @@ class GalleryCarousel(Orderable):
     panels = [
         FieldPanel('image'),
         FieldPanel('carouselTitulo'),
-        FieldPanel('carouselDuracion'),
+        FieldPanel('carouselDuracion',help_text="Formato: 10-8 = 10Dias/8noches"),
     ]
 
     api_fields = [

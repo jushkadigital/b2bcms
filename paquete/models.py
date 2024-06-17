@@ -53,7 +53,7 @@ class Paquete(Page):
         FieldPanel('featuredImage'),
         MultiFieldPanel([
         FieldPanel('background'),
-        FieldPanel('duracion',help_text="Formato: 10-8 = 10d-8n"),
+        FieldPanel('duracion',help_text="Formato: 10-8 = 10Dias/8noches"),
         FieldRowPanel([FieldPanel('linkWord'),FieldPanel('linkPdf'),FieldPanel('linkFlyer')])],heading="Parte Superior"),
 
         MultiFieldPanel([
