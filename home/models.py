@@ -95,8 +95,8 @@ class GalleryCarousel(Orderable):
     image = models.ForeignKey(
         get_image_model_string(), on_delete=models.CASCADE, related_name='+'
     )
-    carouselTitulo = models.CharField(max_length=50,verbose_name="Subtitulo Paquetes")
-    carouselDuracion = models.CharField(max_length=30,verbose_name="Subtitulo Paquetes")
+    carouselTitulo = models.CharField(max_length=50,verbose_name="Titulo")
+    carouselDuracion = models.CharField(max_length=30,verbose_name="Duracion")
     panels = [
         FieldPanel('image'),
         FieldPanel('carouselTitulo'),
