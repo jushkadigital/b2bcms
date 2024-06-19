@@ -212,10 +212,6 @@ class Certificados(Orderable):
 
 
 
-
-
-
-
 # SNIPPETS WAGTAIL
 
 
