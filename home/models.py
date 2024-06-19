@@ -24,14 +24,16 @@ from rest_framework.serializers import Serializer
 from home.panels import ListChildsPanel, ListSnippetPanel
 
 # from home.models import Destino
-
 class Destino(models.Model):
     name = models.CharField(max_length=255,verbose_name = "Nombre")
     background = models.ForeignKey(
         get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo"
     )
 
-
+class DataNumeros(models.Model):
+    name =  models.CharField(max_length=255,verbose_name = "Nombre")
+    numero =  models.IntegerField(verbose_name= "Numero Celular",blank=True)
+    link = models.CharField(max_length=300,verbose_name = "link",blank=True)
 
 class ChildSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,14 +45,12 @@ class DestinosSnippetsSerializer(Field):
         print(childs)
         return [ChildSerializer(child).data for child in childs]
 
-
 class Home(Page):
     body = RichTextField(blank=True)
     content_panels = Page.content_panels + [
         # TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
         FieldPanel('body'),
     ]
-
 
     subpage_types = ['home.Inicio','home.Nosotros']
     api_fields = [
@@ -92,11 +92,15 @@ class Inicio(Page):
 
 class GalleryCarousel(Orderable):
     page = ParentalKey(Inicio, on_delete=models.CASCADE , related_name = 'galleryInicio')
+
     image = models.ForeignKey(
         get_image_model_string(), on_delete=models.CASCADE, related_name='+'
     )
+    
     carouselTitulo = models.CharField(max_length=50,verbose_name="Titulo")
+    
     carouselDuracion = models.CharField(max_length=30,verbose_name="Duracion")
+    
     panels = [
         FieldPanel('image'),
         FieldPanel('carouselTitulo'),
@@ -235,4 +239,17 @@ class DestinoViewSet(SnippetViewSet):
 
 register_snippet(DestinoViewSet)
 
+class DataNumerosViewSet(SnippetViewSet):
+    model= DataNumeros
+    icon = "user"
+    list_display = ["name",UpdatedAtColumn()]
+    list_per_page = 50
+    add_to_admin_menu = True
+    inspect_view_enabled = True
+    admin_url_namespace = "dataNumeros_views"
+    base_url_path = "internal/dataNumeros"
+    edit_handler = TabbedInterface([
+        ObjectList([FieldPanel('name'),FieldPanel("numero"),FieldPanel("link")],heading="Data")
+        ])
 
+register_snippet(DataNumerosViewSet)
