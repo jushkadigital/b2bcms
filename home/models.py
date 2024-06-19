@@ -32,7 +32,7 @@ class Destino(models.Model):
 
 class DataNumeros(models.Model):
     name =  models.CharField(max_length=255,verbose_name = "Nombre")
-    numero =  models.IntegerField(verbose_name= "Numero Celular",blank=True)
+    numero =  models.CharField(max_length=255,verbose_name = "Numero Formate +x xxxxxxx")
     link = models.CharField(max_length=300,verbose_name = "link",blank=True)
 
 class ChildSerializer(serializers.ModelSerializer):
