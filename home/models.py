@@ -30,9 +30,10 @@ class Destino(models.Model):
         get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo"
     )
 
-class DataNumeros(models.Model):
+class DataNumero(models.Model):
     name =  models.CharField(max_length=255,verbose_name = "Nombre")
-    numero =  models.CharField(max_length=255,verbose_name = "Numero Formate +x xxxxxxx")
+    numero =  models.CharField(max_length=255,verbose_name = "Numero Formato +x xxxxxxx o Texto de Boton ")
+    desc =  models.CharField(max_length=255,verbose_name = "Descripcion")
     link = models.CharField(max_length=300,verbose_name = "link",blank=True)
 
 class ChildSerializer(serializers.ModelSerializer):
@@ -235,8 +236,8 @@ class DestinoViewSet(SnippetViewSet):
 
 register_snippet(DestinoViewSet)
 
-class DataNumerosViewSet(SnippetViewSet):
-    model= DataNumeros
+class DataNumeroViewSet(SnippetViewSet):
+    model= DataNumero
     icon = "user"
     list_display = ["name",UpdatedAtColumn()]
     list_per_page = 50
@@ -248,4 +249,4 @@ class DataNumerosViewSet(SnippetViewSet):
         ObjectList([FieldPanel('name'),FieldPanel("numero"),FieldPanel("link")],heading="Data")
         ])
 
-register_snippet(DataNumerosViewSet)
+register_snippet(DataNumeroViewSet)
