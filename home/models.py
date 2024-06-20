@@ -246,7 +246,7 @@ class DataNumeroViewSet(SnippetViewSet):
     admin_url_namespace = "dataNumeros_views"
     base_url_path = "internal/dataNumeros"
     edit_handler = TabbedInterface([
-        ObjectList([FieldPanel('name'),FieldPanel("numero"),FieldPanel("link")],heading="Data")
+        ObjectList([FieldPanel('name'),FieldPanel("numero"),FieldPanel("desc"),FieldPanel("link")],heading="Data")
         ])
 
 register_snippet(DataNumeroViewSet)
