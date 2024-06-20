@@ -33,8 +33,8 @@ class Destino(models.Model):
 class DataNumero(models.Model):
     name =  models.CharField(max_length=255,verbose_name = "Nombre")
     numero =  models.CharField(max_length=255,verbose_name = "Numero Formato +x xxxxxxx o Texto de Boton ")
-    desc =  models.CharField(max_length=255,verbose_name = "Descripcion")
-    link = models.CharField(max_length=300,verbose_name = "link",blank=True)
+    desc =  models.CharField(max_length=255,verbose_name = "Descripcion",null=True,blank=True)
+    link = models.CharField(max_length=300,verbose_name = "link")
 
 class ChildSerializer(serializers.ModelSerializer):
     class Meta:
