@@ -41,7 +41,7 @@ class CustomSnippetDestinoApiViewSet(BaseAPIViewSet):
     name = "destinos"
     model = Destino
 class CustomSnippetDatNumerosApiViewSet(BaseAPIViewSet):
-    body_fields = BaseAPIViewSet.body_fields + ["name", "numero","link"]
+    body_fields = BaseAPIViewSet.body_fields + ["name", "numero","desc","link"]
     renderer_classes = [JSONRenderer]
     name = "dataNumeros"
     model = DataNumero
