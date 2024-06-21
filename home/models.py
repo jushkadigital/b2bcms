@@ -155,6 +155,21 @@ class Nosotros(Page):
     ]
     parent_page_types = ['home.Home']
     max_count_per_parent = 1
+    api_fields = [
+            APIField('background'),
+            APIField('titulo'),
+            APIField('subTitulo'),
+            APIField('parrafo'),
+            APIField('imageParrafo'),
+            APIField('razonSocial'),
+            APIField('numeroRuc'),
+            APIField('nombreComercial'),
+            APIField('certificadoAutorizacion'),
+            APIField('estadisticasNosotros'),
+            APIField('valoresNosotros'),
+            APIField('partnersNosotros'),
+            APIField('certificadosNosotros'),
+    ]
 
 class Estadisticas(Orderable):
     page = ParentalKey(Nosotros,on_delete=models.CASCADE , related_name = 'estadisticasNosotros')

@@ -4,7 +4,7 @@ from wagtail.api.v2.views import BaseAPIViewSet, PagesAPIViewSet
 from wagtail.api.v2.router import WagtailAPIRouter
 from rest_framework.renderers import JSONRenderer
 from paquete.models import Paquete
-from home.models import DataNumero, Destino, Inicio
+from home.models import DataNumero, Destino, Inicio, Nosotros
 from wagtail.images.api.v2.views import ImagesAPIViewSet
 # Create the router. "wagtailapi" is the URL namespace
 
@@ -35,6 +35,11 @@ class CustomInicioApiViewSet(PagesAPIViewSet):
     name = "inicios"
     model = Inicio
 
+class CustomNosotrosApiViewSet(PagesAPIViewSet):
+    renderer_classes = [JSONRenderer]
+    name = "nosotros"
+    model = Nosotros
+
 class CustomSnippetDestinoApiViewSet(BaseAPIViewSet):
     body_fields = BaseAPIViewSet.body_fields + ["name", "background"]
     renderer_classes = [JSONRenderer]
@@ -49,6 +54,7 @@ class CustomSnippetDatNumerosApiViewSet(BaseAPIViewSet):
 
 api_router.register_endpoint('pages/paquete', CustomPagesAPIViewSet)
 api_router.register_endpoint('pages/inicio', CustomInicioApiViewSet)
+api_router.register_endpoint('pages/nosotros', CustomNosotrosApiViewSet)
 api_router.register_endpoint('images', ImagesAPIViewSet)
 api_router.register_endpoint('snippets/destino', CustomSnippetDestinoApiViewSet)
 api_router.register_endpoint('snippets/dataNumeros', CustomSnippetDatNumerosApiViewSet)
