@@ -15,9 +15,11 @@ import os
 import dj_database_url
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'denkdx0za',  # required
-    'API_KEY': 482328543211743,  # required
-    'API_SECRET': 'rPJHaGT36J8EK9wygmjN_tXBQEw'
+    # 'CLOUD_NAME': 'denkdx0za',  # required
+    'CLOUD_NAME': 'dhwwdtclq',  # required
+    'API_KEY': 453554727621738,  # required
+    # 'API_SECRET': 'rPJHaGT36J8EK9wygmjN_tXBQEw'
+    'API_SECRET': 'ZpZNNDtRzhwY2IOy9jOtt91W-kY'
     }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +47,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 INSTALLED_APPS = [
     'home',
     'paquete',
+    'tour',
 
     'django.contrib.admin',
     'django.contrib.auth',

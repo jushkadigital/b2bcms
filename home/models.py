@@ -13,15 +13,18 @@ from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
 from rest_framework import serializers
 from modelcluster.fields import  ParentalKey as parentKeyModel
-
-
+from taggit.models import Tag
 # from home.serializers import DestinosSnippetsSerializer
 
 
 from rest_framework.fields import Field
 from rest_framework.serializers import Serializer
 
-from home.panels import ListChildsPanel, ListSnippetPanel
+from home.panels import  ListSnippetPanel
+from paquete.models import Paquete
+
+
+
 
 # from home.models import Destino
 class Destino(models.Model):
@@ -29,8 +32,17 @@ class Destino(models.Model):
     background = models.ForeignKey(
         get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo"
     )
+    backgroundMobile = models.ForeignKey(
+        get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo para Mobile"
+    )
 
-class DataNumero(models.Model):
+    panels = [
+        FieldPanel('name'),
+    ]
+    def __str__(self):
+        return self.name
+
+class Informacion(models.Model):
     name =  models.CharField(max_length=255,verbose_name = "Nombre")
     numero =  models.CharField(max_length=255,verbose_name = "Numero Formato +x xxxxxxx o Texto de Boton ")
     desc =  models.CharField(max_length=255,verbose_name = "Descripcion",null=True,blank=True)
@@ -72,7 +84,8 @@ class Inicio(Page):
         # MultiFieldPanel([InlinePanel('galleryInicio')],heading="Carousel de Imagenes"),
         MultipleChooserPanel('galleryInicio', label="Carousel de Imagenes",chooser_field_name="image"),
         FieldPanel('paqueteTitulo'),
-        ListChildsPanel(name="aoeu"),
+        # ListChildsPanel(name="aoeu"),
+        ListSnippetPanel(modell=Paquete),
         FieldPanel('destinoTitulo'),
         ListSnippetPanel(modell=Destino),
         MultiFieldPanel([InlinePanel('faqInicio')],heading="Preguntas Frecuentes"),
@@ -80,7 +93,7 @@ class Inicio(Page):
     ]
     parent_page_types = ['home.Home']
     max_count_per_parent = 1
-    subpage_types = ['paquete.IndexPaquete']
+    # subpage_types = ['paquete.IndexPaquete']
     api_fields = [
             APIField('galleryInicio'),
             APIField('paqueteTitulo'),
@@ -229,14 +242,33 @@ class Certificados(Orderable):
 
 
 # SNIPPETS WAGTAIL
+@register_snippet
+class TourCategory(models.Model):
+    """Blog category for a snippet."""
+
+    name = models.CharField(max_length=255)
+    panels = [
+        FieldPanel("name"),
+    ]
+
+    class Meta:
+        verbose_name = "Tour Category"
+        verbose_name_plural = "Tour Categories"
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
 
 
 class DestinoViewSet(SnippetViewSet):
     model = Destino
-    icon = "user"
+    icon = "tag"
     list_display = ["name", "background", UpdatedAtColumn()]
     list_per_page = 50
     add_to_admin_menu = True
+    menu_order = 400
     copy_view_enabled = False
     inspect_view_enabled = True
     admin_url_namespace = "destino_views"
@@ -251,17 +283,19 @@ class DestinoViewSet(SnippetViewSet):
 
 register_snippet(DestinoViewSet)
 
-class DataNumeroViewSet(SnippetViewSet):
-    model= DataNumero
-    icon = "user"
+class InformacionViewSet(SnippetViewSet):
+    model= Informacion
+    icon = "tag"
     list_display = ["name",UpdatedAtColumn()]
     list_per_page = 50
     add_to_admin_menu = True
+    menu_order = 500
+    menu_label = "Informacion"
     inspect_view_enabled = True
-    admin_url_namespace = "dataNumeros_views"
-    base_url_path = "internal/dataNumeros"
+    admin_url_namespace = "informacion_views"
+    base_url_path = "internal/informacion"
     edit_handler = TabbedInterface([
         ObjectList([FieldPanel('name'),FieldPanel("numero"),FieldPanel("desc"),FieldPanel("link")],heading="Data")
         ])
 
-register_snippet(DataNumeroViewSet)
+register_snippet(InformacionViewSet)

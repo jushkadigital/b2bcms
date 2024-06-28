@@ -4,8 +4,10 @@
     <ul class="collapsible collapsed">
         {% for child in chill %}
         <li>{{child.name}}</li>
-        {% empty %}k
-            <li>{% trans "No children found." %}</li>
+        <li>{{child.title}}</li>
+        {% empty %}
+        <li> {% blocktrans %} No se encontraron {{ heading }}s. {% endblocktrans %} </li>
+
         {% endfor %}
     </ul>
 </div>
