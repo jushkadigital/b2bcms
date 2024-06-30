@@ -278,7 +278,7 @@ class DestinoViewSet(SnippetViewSet):
     # or
     # list_filter = {"shirt_size": ["exact"], "name": ["icontains"]}
     edit_handler = TabbedInterface([
-        ObjectList([FieldPanel("name"),FieldPanel("background"),FieldPanel("backgroundMobile")], heading="Informacion"),
+        ObjectList([FieldPanel("name"),FieldPanel("background",help_text ="Dimensiones max: varian consultar Maqueta. px"),FieldPanel("backgroundMobile",help_text ="Dimensiones max: . px")], heading="Informacion"),
     ])
 
 register_snippet(DestinoViewSet)

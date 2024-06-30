@@ -74,9 +74,9 @@ class Paquete(WorkflowMixin, DraftStateMixin, LockableMixin, RevisionMixin, Clus
     
     panels = [
         TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
-        FieldPanel('featuredImage'),
+        FieldPanel('featuredImage',help_text ="Dimensiones max: 425 x 585. px"),
         MultiFieldPanel([
-        FieldPanel('background'),
+        FieldPanel('background',help_text ="Dimensiones max: 1445 x 1030. px"),
         FieldPanel('duracion',help_text="Formato: 10-8 = 10Dias/8noches"),
         FieldRowPanel([FieldPanel('linkWord'),FieldPanel('linkPdf'),FieldPanel('linkFlyer')])],heading="Parte Superior"),
 
@@ -131,13 +131,14 @@ class GalleryCarousel(Orderable):
     caption = models.CharField(blank=True, max_length=250)
 
     panels = [
-        FieldPanel('image'),
+        FieldPanel('image',help_text ="Dimensiones max: 279 x 279. px"),
         FieldPanel('caption'),
     ]
     api_fields = [
             APIField('image'),
             APIField('caption')
             ]
+
 class Dias(Orderable):
     page = ParentalKey(Paquete, on_delete=models.CASCADE , related_name = 'dias')
     item = RichTextField()
