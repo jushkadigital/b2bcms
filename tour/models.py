@@ -4,7 +4,7 @@ from wagtail.api.v2.filters import TaggableManager
 from wagtail.api.v2.views import APIField
 from wagtail.blocks import RichTextBlock
 from wagtail.fields import RichTextField
-from wagtail.models import Orderable, Page, ParentalKey, StreamField
+from wagtail.models import BootstrapTranslatableMixin, Orderable, Page, ParentalKey, StreamField, TranslatableMixin
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, TitleFieldPanel
 from wagtail.images import get_image_model_string
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -30,7 +30,7 @@ from wagtail.snippets.views.snippets import SnippetViewSet
 #         related_name='tagged_items'
 #     )
 
-class Tour(WorkflowMixin, DraftStateMixin, LockableMixin, RevisionMixin, ClusterableModel):
+class Tour(TranslatableMixin,WorkflowMixin, DraftStateMixin, LockableMixin, RevisionMixin, ClusterableModel):
     # tags = TaggableManager(through=TaggedTour)
     tour = models.ForeignKey("home.Destino",on_delete=models.CASCADE, related_name="tour_foreign",verbose_name="Destino")
     categories = ParentalManyToManyField("home.TourCategory",blank=True)

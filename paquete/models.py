@@ -2,9 +2,9 @@ from django.db import models
 from wagtail import blocks
 from wagtail.admin.ui.tables import UpdatedAtColumn
 from wagtail.api.v2.views import APIField
-from wagtail.models import Orderable, Page, ParentalKey, StreamField
+from wagtail.models import BootstrapTranslatableMixin, Orderable, Page, ParentalKey, StreamField, TranslatableMixin
 from wagtail.fields import RichTextField
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, TitleFieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, ObjectList, TabbedInterface, TitleFieldPanel
 from wagtail.images import get_image_model_string
 # Create your models here.
 from wagtail.snippets.models import register_snippet
@@ -46,7 +46,7 @@ class CloudinaryRendition(AbstractCloudinaryRendition):
 #         )
 
 
-class Paquete(WorkflowMixin, DraftStateMixin, LockableMixin, RevisionMixin, ClusterableModel):
+class Paquete(TranslatableMixin, WorkflowMixin, DraftStateMixin, LockableMixin, RevisionMixin, ClusterableModel):
     title = models.CharField( max_length=100)
     background = models.ForeignKey(
         get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo"
@@ -72,6 +72,9 @@ class Paquete(WorkflowMixin, DraftStateMixin, LockableMixin, RevisionMixin, Clus
         # Some custom logic here if necessary
         return self._revisions   
     
+    def __str__(self):
+        return self.title
+
     panels = [
         TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
         FieldPanel('featuredImage',help_text ="Dimensiones max: 425 x 585. px"),
@@ -83,7 +86,7 @@ class Paquete(WorkflowMixin, DraftStateMixin, LockableMixin, RevisionMixin, Clus
         MultiFieldPanel([
         FieldRowPanel([MultiFieldPanel([FieldPanel('precio'),InlinePanel('excluidos', label="No Incluye"),InlinePanel('incluidos', label="Incluye") ]),
                        MultiFieldPanel([MultipleChooserPanel('galleryPaquete', label="Galeria de Imagenes",chooser_field_name="image"),InlinePanel('dias',label="dia")])])],heading="Parte Intermedia"),
-        PublishingPanel()
+        PublishingPanel(),
     ]
 
     api_fields = [
@@ -166,10 +169,7 @@ class PaqueteViewSet(SnippetViewSet):
     # list_filter = ["shirt_size"]
     # or
     # list_filter = {"shirt_size": ["exact"], "name": ["icontains"]}
-    # edit_handler = TabbedInterface([
-    #     ObjectList([FieldPanel("name"),FieldPanel("background")], heading="Informacion"),
-    # ])
-
+    
 register_snippet(PaqueteViewSet)
 
 

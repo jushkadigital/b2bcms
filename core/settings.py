@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'home',
     'paquete',
     'tour',
-
+    'wagtail.locales',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,6 +58,7 @@ INSTALLED_APPS = [
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
+    "wagtail.contrib.simple_translation",
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -159,6 +160,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+USE_I18N = True
+WAGTAIL_I18N_ENABLED = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -181,6 +184,14 @@ WAGTAILADMIN_BASE_URL = 'http://example.com'
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
 
 WAGTAILIMAGES_IMAGE_MODEL = "paquete.CloudinaryImage"
+
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('es', "Spanish"),
+    ('en', "English"),
+]
+
+LANGUAGE_CODE = 'es'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
