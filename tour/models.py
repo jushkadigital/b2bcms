@@ -58,7 +58,9 @@ class Tour(TranslatableMixin,WorkflowMixin, DraftStateMixin, LockableMixin, Revi
     def revisions(self):
         # Some custom logic here if necessary
         return self._revisions   
-    
+    def __str__(self):
+        return self.title
+
     panels = [
         TitleFieldPanel('title', placeholder="Titulo del Tour",help_text="El titulo sera incluido en la parte superior"),
         FieldPanel('featuredImage'),
