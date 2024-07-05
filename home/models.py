@@ -24,6 +24,18 @@ from home.panels import  ListSnippetPanel
 from paquete.models import Paquete
 
 
+class CloudinaryImage(AbstractCloudinaryImage):
+    pass
+#     image = models.ForeignKey(
+#             CloudinaryImage, on_delete=models.CASCADE, related_name="renditions"
+#         )
+
+class CloudinaryRendition(AbstractCloudinaryRendition):
+    image = models.ForeignKey(
+            CloudinaryImage, on_delete=models.CASCADE, related_name="renditions"
+        )
+    
+
 
 
 # from home.models import Destino
@@ -65,7 +77,7 @@ class Home(Page):
         FieldPanel('body'),
     ]
 
-    subpage_types = ['home.Inicio','home.Nosotros']
+    subpage_types = ['home.Inicio','home.Nosotros','home.Global']
     api_fields = [
     ]
 
@@ -81,7 +93,6 @@ class Inicio(Page):
 
     content_panels = Page.content_panels + [
         # TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
-        # MultiFieldPanel([InlinePanel('galleryInicio')],heading="Carousel de Imagenes"),
         MultipleChooserPanel('galleryInicio', label="Carousel de Imagenes",chooser_field_name="image"),
         FieldPanel('paqueteTitulo'),
         # ListChildsPanel(name="aoeu"),
@@ -113,18 +124,26 @@ class GalleryCarousel(Orderable):
     
     carouselTitulo = models.CharField(max_length=50,verbose_name="Titulo")
     
-    carouselDuracion = models.CharField(max_length=30,verbose_name="Duracion")
+    carouselDuracion = models.CharField(max_length=30,verbose_name="Duracion",default =" ")
+    
+    carouselLink = models.CharField(max_length=50,verbose_name="Link")
+
+    carouselButtonName = models.CharField(max_length=50,verbose_name="Texto del Boton")
     
     panels = [
         FieldPanel('image'),
         FieldPanel('carouselTitulo'),
         FieldPanel('carouselDuracion',help_text="Formato: 10-8 = 10Dias/8noches"),
+        FieldPanel('carouselLink',help_text="Link del contenido"),
+        FieldPanel('carouselButtonName',help_text="Texto del Boton Rojo"),
     ]
 
     api_fields = [
             APIField('image'),
             APIField('carouselTitulo'),
             APIField('carouselDuracion'),
+            APIField('carouselLink'),
+            APIField('carouselButtonName'),
             ]
 
 class Faq(Orderable):
@@ -239,6 +258,14 @@ class Certificados(Orderable):
             APIField('image'),
             ]
 
+class Global(Page):
+    body = RichTextField(blank=True)
+    parent_page_types = ['home.Home']
+    max_count_per_parent = 1
+    content_panels = Page.content_panels + [
+        # TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
+        FieldPanel('body'),
+    ]
 
 
 # SNIPPETS WAGTAIL

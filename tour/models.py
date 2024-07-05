@@ -4,8 +4,8 @@ from wagtail.api.v2.filters import TaggableManager
 from wagtail.api.v2.views import APIField
 from wagtail.blocks import RichTextBlock
 from wagtail.fields import RichTextField
-from wagtail.models import BootstrapTranslatableMixin, Orderable, Page, ParentalKey, StreamField, TranslatableMixin
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, TitleFieldPanel
+from wagtail.models import BootstrapTranslatableMixin, Orderable, Page, ParentalKey, StreamField, TranslatableMixin,forms
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, TitleFieldPanel, WagtailAdminPageForm
 from wagtail.images import get_image_model_string
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import  ItemBase
@@ -20,49 +20,74 @@ from wagtail.snippets.views.chooser import SnippetChosenMultipleView
 from wagtail.snippets.views.snippets import SnippetViewSet
 
 
-# class TaggedTour(ItemBase):
-#     tag = models.ForeignKey(
-#         "home.Destino", related_name="tagged_blogs", on_delete=models.CASCADE
-#     )
-#     content_object = ParentalKey(
-#         to='tour.Tour',
-#         on_delete=models.CASCADE,
-#         related_name='tagged_items'
-#     )
+dictRelativeNames = {
+        "excluidos": "No Incluye",
+        "incluidos": "Incluye",
+        "galleryTour": "Galeria de Imagenes",
+        }
 
-class Tour(TranslatableMixin,WorkflowMixin, DraftStateMixin, LockableMixin, RevisionMixin, ClusterableModel):
+class CustomValidateForm(WagtailAdminPageForm):
+    """
+    Custom Form for validations only in Publish Mode
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["action-publish"] = forms.CharField(required=False, widget=forms.HiddenInput())
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        print(cleaned_data)
+        print(self.formsets)
+
+        for key,val in (self.formsets.items()):
+            if cleaned_data.get("action-publish") and len(val.forms) == 0 and key != "comments":
+                raise forms.ValidationError(f"Error debe haber almenos uno en {dictRelativeNames[key]}")
+        if cleaned_data.get("action-publish") and cleaned_data.get('background') is None:
+            raise forms.ValidationError({"background": "Error debes poner la imagen de fondo"})
+        if cleaned_data.get("action-publish") and cleaned_data.get('featuredImage') is None:
+            raise forms.ValidationError({"featuredImage": "Error debes poner el Thumbnail"})
+        if cleaned_data.get("action-publish") and cleaned_data.get('precio') is None:
+            raise forms.ValidationError({"precio": "Error debes poner el precio"})
+        if cleaned_data.get("action-publish") and cleaned_data.get('linkWord') is None:
+            raise forms.ValidationError({"linkWord": "Error debes poner el link"})
+        if cleaned_data.get("action-publish") and cleaned_data.get('linkPdf') is None:
+            raise forms.ValidationError({"linkPdf": "Error debes poner el link"})
+        if cleaned_data.get("action-publish") and cleaned_data.get('linkFlyer') is None:
+            raise forms.ValidationError({"linkFlyer": "Error debes poner el link"})
+        if cleaned_data.get("action-publish") and cleaned_data.get('linkFlyer') is None:
+            raise forms.ValidationError({"linkFlyer": "Error debes poner el link"})
+        if cleaned_data.get("action-publish") and cleaned_data.get('itinerario') is None:
+            raise forms.ValidationError({"itinerario": "Error debes poner el itinerario"})
+        if cleaned_data.get("action-publish") and cleaned_data.get('tourDestino') is None:
+            raise forms.ValidationError({"tourDestino": "Error debes poner a que destino pertenece"})
+        if cleaned_data.get("action-publish") and len(cleaned_data.get('categories')) == 0:
+            raise forms.ValidationError({"categories": "Error debes poner al menos una Categoria"})
+        return cleaned_data
+
+
+
+class Tour(Page):
     # tags = TaggableManager(through=TaggedTour)
-    tour = models.ForeignKey("home.Destino",on_delete=models.CASCADE, related_name="tour_foreign",verbose_name="Destino")
-    categories = ParentalManyToManyField("home.TourCategory",blank=True)
-    title = models.CharField( max_length=100)
+    tourDestino = models.ForeignKey("home.Destino",on_delete=models.CASCADE, related_name="tour_foreign",verbose_name="Destino",null=True,blank=True)
+    categories = ParentalManyToManyField("home.TourCategory",null=True,blank=True)
     background = models.ForeignKey(
         get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo"
     )
     featuredImage = models.ForeignKey(
         get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Thumbnail"
     )
-    precio = models.DecimalField(max_digits=6, decimal_places=2,verbose_name="Precio")
-    linkWord = models.CharField( max_length=100,verbose_name="Link Word")
-    linkPdf = models.CharField( max_length=100,verbose_name="Link Pdf")
-    linkFlyer = models.CharField( max_length=100,verbose_name="Link Flyer")
-    itinerario = RichTextField()
-    _revisions = GenericRelation("wagtailcore.Revision", related_query_name="tour")
-    workflow_states = GenericRelation(
-        "wagtailcore.WorkflowState",
-        content_type_field="base_content_type",
-        object_id_field="object_id",
-        related_query_name="tour",
-        for_concrete_model=False,
-    )
-    @property
-    def revisions(self):
-        # Some custom logic here if necessary
-        return self._revisions   
+    precio = models.DecimalField(max_digits=6, decimal_places=2,verbose_name="Precio",null=True,blank=True)
+    linkWord = models.CharField( max_length=100,verbose_name="Link Word",null=True,blank=True)
+    linkPdf = models.CharField( max_length=100,verbose_name="Link Pdf",null=True,blank=True)
+    linkFlyer = models.CharField( max_length=100,verbose_name="Link Flyer",null=True,blank=True)
+    itinerario = RichTextField(null=True,blank=True)
+    base_form_class = CustomValidateForm
     def __str__(self):
         return self.title
 
-    panels = [
-        TitleFieldPanel('title', placeholder="Titulo del Tour",help_text="El titulo sera incluido en la parte superior"),
+    content_panels =Page.content_panels +  [
         FieldPanel('featuredImage'),
         MultiFieldPanel([
         FieldPanel('background'),
@@ -71,9 +96,8 @@ class Tour(TranslatableMixin,WorkflowMixin, DraftStateMixin, LockableMixin, Revi
         MultiFieldPanel([
         FieldRowPanel([MultiFieldPanel([FieldPanel('precio'),InlinePanel('excluidos', label="No Incluye"),InlinePanel('incluidos', label="Incluye") ]),
                        MultiFieldPanel([MultipleChooserPanel('galleryTour', label="Galeria de Imagenes",chooser_field_name="image")])])],heading="Parte Intermedia"),
-        FieldPanel('tour'),
+        FieldPanel('tourDestino'),
         FieldPanel('categories'),
-        PublishingPanel()
     ]
 
     api_fields = [
@@ -90,7 +114,7 @@ class Tour(TranslatableMixin,WorkflowMixin, DraftStateMixin, LockableMixin, Revi
         APIField('tour')
     ]
 
-    page_description = "Informacion del paquete"
+    page_description = "Informacion del Tour"
 
 
 class ExcluidoItemPaquete(Orderable):
@@ -128,28 +152,3 @@ class GalleryCarousel(Orderable):
             APIField('image'),
             APIField('caption')
             ]
-
-## Register Snippet
-
-class TourViewSet(SnippetViewSet):
-    model = Tour
-    icon = "tag"
-    list_display = ["title", "featuredImage", UpdatedAtColumn()]
-    list_per_page = 50
-    add_to_admin_menu = True
-    menu_order = 200
-    copy_view_enabled = False
-    inspect_view_enabled = True
-    admin_url_namespace = "tour_views"
-    base_url_path = "snippets/tour"
-    # alternatively, you can use the following instead of filterset_class
-    # list_filter = ["shirt_size"]
-    # or
-    # list_filter = {"shirt_size": ["exact"], "name": ["icontains"]}
-    # edit_handler = TabbedInterface([
-    #     ObjectList([FieldPanel("name"),FieldPanel("background")], heading="Informacion"),
-    # ])
-
-register_snippet(TourViewSet)
-
-

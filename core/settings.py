@@ -183,7 +183,7 @@ WAGTAIL_SITE_NAME = 'My Example Site'
 WAGTAILADMIN_BASE_URL = 'http://example.com'
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
 
-WAGTAILIMAGES_IMAGE_MODEL = "paquete.CloudinaryImage"
+WAGTAILIMAGES_IMAGE_MODEL = "home.CloudinaryImage"
 
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
     ('es', "Spanish"),

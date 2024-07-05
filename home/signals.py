@@ -1,3 +1,5 @@
+
+from wagtail.models import ValidationError
 from wagtail.signals import page_published
 import requests
 
@@ -9,6 +11,8 @@ def send_to_vercel(sender, **kwargs):
     values = {
     }
     # response = requests.get(url)
-    print("GAAA")
+    # print(response)
+    print("gaaa")
 
+# Register a receiver
 page_published.connect(send_to_vercel)
