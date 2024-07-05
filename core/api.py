@@ -46,6 +46,15 @@ class CustomTourSniPageAPIViewSet(BaseAPIViewSet):
     #     "title",
     #     "precio",
     # ]
+class CustomTourApiViewSet(PagesAPIViewSet):
+    renderer_classes = [JSONRenderer]
+    name = "tour"
+    model = Tour 
+
+class CustomPaqueteApiViewSet(PagesAPIViewSet):
+    renderer_classes = [JSONRenderer]
+    name = "paquete"
+    model = Paquete
 
 class CustomInicioApiViewSet(PagesAPIViewSet):
     renderer_classes = [JSONRenderer]
@@ -69,7 +78,7 @@ class CustomSnippetInformacionApiViewSet(BaseAPIViewSet):
     model = Informacion
 
 
-api_router.register_endpoint('sniPages/paquete', CustomPaqueteSniPageAPIViewSet)
+api_router.register_endpoint('pages/paquete', CustomPaqueteApiViewSet)
 api_router.register_endpoint('pages/inicio', CustomInicioApiViewSet)
 api_router.register_endpoint('pages/nosotros', CustomNosotrosApiViewSet)
 api_router.register_endpoint('images', ImagesAPIViewSet)
