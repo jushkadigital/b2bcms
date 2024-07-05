@@ -19,33 +19,6 @@ api_router = WagtailAPIRouter('wagtailapi')
 # The second parameter is the endpoint class that handles the requests
 
 
-class CustomPaqueteSniPageAPIViewSet(BaseAPIViewSet):
-    body_fields = BaseAPIViewSet.body_fields + ["title", "background","featuredImage","precio","duracion","linkWord","linkPdf","linkFlyer","incluidos","excluidos","galleryPaquete","dias"]
-    renderer_classes = [JSONRenderer]
-    name = "paquetes"
-    model = Paquete
-    # nested_default_fields = BaseAPIViewSet.nested_default_fields + [
-    #     "title",
-    #     "precio"
-    # ]
-    # body_fields = BaseAPIViewSet.body_fields + [
-    #     "title",
-    #     "precio",
-    # ]
-
-class CustomTourSniPageAPIViewSet(BaseAPIViewSet):
-    body_fields = BaseAPIViewSet.body_fields + ["title", "background","featuredImage","precio","linkWord","linkPdf","linkFlyer","incluidos","excluidos","galleryPaquete","itinerario","tour"]
-    renderer_classes = [JSONRenderer]
-    name = "tours"
-    model = Tour
-    # nested_default_fields = BaseAPIViewSet.nested_default_fields + [
-    #     "title",
-    #     "precio"
-    # ]
-    # body_fields = BaseAPIViewSet.body_fields + [
-    #     "title",
-    #     "precio",
-    # ]
 class CustomTourApiViewSet(PagesAPIViewSet):
     renderer_classes = [JSONRenderer]
     name = "tour"
@@ -79,6 +52,7 @@ class CustomSnippetInformacionApiViewSet(BaseAPIViewSet):
 
 
 api_router.register_endpoint('pages/paquete', CustomPaqueteApiViewSet)
+api_router.register_endpoint('pages/tour', CustomTourApiViewSet)
 api_router.register_endpoint('pages/inicio', CustomInicioApiViewSet)
 api_router.register_endpoint('pages/nosotros', CustomNosotrosApiViewSet)
 api_router.register_endpoint('images', ImagesAPIViewSet)
