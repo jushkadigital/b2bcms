@@ -1,6 +1,7 @@
 from django.db import models
 from wagtail.api.v2.views import APIField
 from wagtail.fields import RichTextField
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Orderable, Page, ParentalKey, StreamField
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, ObjectList, TabbedInterface, TitleFieldPanel
 from wagtail.images import get_image_model_string
@@ -21,6 +22,7 @@ from rest_framework.fields import Field
 from rest_framework.serializers import Serializer
 
 from home.panels import  ListSnippetPanel
+from paquete import blocks
 from paquete.models import Paquete
 
 
@@ -83,17 +85,33 @@ class Home(Page):
 
     page_description = "Sitio cms wagtail"
 
+
+
+
+class GalleryPaquetesCarousel(blocks.StructBlock):
+    photo = ImageChooserBlock(required=False)
+    carouselTitulo = blocks.CharBlock(max_length=75,help_text="Titulo")
+    carouselDuracion = blocks.CharBlock(max_length=75,help_text="Titulo")
+    carouselLink = blocks.CharBlock(max_length=200,help_text="Link")
+    carouselButtonName = blocks.CharBlock(max_length=75,help_text="texto del Boton")
+    
+class GalleryCarousel(blocks.StructBlock):
+    photo = ImageChooserBlock(required=False)
+    carouselTitulo = blocks.CharBlock(max_length=75,help_text="Titulo",default=" ")
+    carouselButtonName = blocks.CharBlock(max_length=75,help_text="texto del Boton")
+ 
+
 # PAGES WAGTAIL
 
 class Inicio(Page):
     paqueteTitulo = models.CharField(max_length=30,verbose_name="Subtitulo Paquetes")
     destinoTitulo = models.CharField(max_length=30,verbose_name="Subtitulo Destinos")
     formularioTitulo = models.CharField(max_length=75,verbose_name="Titulo Formulario")
-    formularioSubtitulo = models.CharField(max_length=75,verbose_name="Subtitulo Formulario")
-
+    formularioSubtitulo = models.CharField(max_length=200,verbose_name="Subtitulo Formulario")
+    galleryIni = StreamField([('Tipo1',GalleryPaquetesCarousel()),('Tipo2',GalleryCarousel())])
     content_panels = Page.content_panels + [
-        # TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
-        MultipleChooserPanel('galleryInicio', label="Carousel de Imagenes",chooser_field_name="image"),
+        # MultipleChooserPanel('galleryInicio', label="Carousel de Imagenes",chooser_field_name="image"),
+        FieldPanel('galleryIni'),
         FieldPanel('paqueteTitulo'),
         # ListChildsPanel(name="aoeu"),
         ListSnippetPanel(modell=Paquete),
@@ -106,7 +124,7 @@ class Inicio(Page):
     max_count_per_parent = 1
     # subpage_types = ['paquete.IndexPaquete']
     api_fields = [
-            APIField('galleryInicio'),
+            APIField('galleryIni'),
             APIField('paqueteTitulo'),
             APIField('destinoTitulo'),
             APIField('faqInicio'),
@@ -115,37 +133,36 @@ class Inicio(Page):
     ]
 
 
-class GalleryCarousel(Orderable):
-    page = ParentalKey(Inicio, on_delete=models.CASCADE , related_name = 'galleryInicio')
+# class GalleryCarousel(Roderable):
+#     page = ParentalKey(Inicio, on_delete=models.CASCADE , related_name = 'galleryInicio')
 
-    image = models.ForeignKey(
-        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
-    )
-    
-    carouselTitulo = models.CharField(max_length=50,verbose_name="Titulo")
-    
-    carouselDuracion = models.CharField(max_length=30,verbose_name="Duracion",default =" ")
-    
-    carouselLink = models.CharField(max_length=50,verbose_name="Link")
+#     image = models.ForeignKey(
+#         get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+#     )
+#     
+#     carouselTitulo = models.CharField(max_length=50,verbose_name="Titulo")
+#     
+#     carouselDuracion = models.CharField(max_length=30,verbose_name="Duracion",default =" ")
+#     
+#     carouselLink = models.CharField(max_length=50,verbose_name="Link")
 
-    carouselButtonName = models.CharField(max_length=50,verbose_name="Texto del Boton")
-    
-    panels = [
-        FieldPanel('image'),
-        FieldPanel('carouselTitulo'),
-        FieldPanel('carouselDuracion',help_text="Formato: 10-8 = 10Dias/8noches"),
-        FieldPanel('carouselLink',help_text="Link del contenido"),
-        FieldPanel('carouselButtonName',help_text="Texto del Boton Rojo"),
-    ]
+#     carouselButtonName = models.CharField(max_length=50,verbose_name="Texto del Boton")
+#     
+#     panels = [
+#         FieldPanel('image'),
+#         FieldPanel('carouselTitulo'),
+#         FieldPanel('carouselDuracion',help_text="Formato: 10-8 = 10Dias/8noches"),
+#         FieldPanel('carouselLink',help_text="Link del contenido"),
+#         FieldPanel('carouselButtonName',help_text="Texto del Boton Rojo"),
+#     ]
 
-    api_fields = [
-            APIField('image'),
-            APIField('carouselTitulo'),
-            APIField('carouselDuracion'),
-            APIField('carouselLink'),
-            APIField('carouselButtonName'),
-            ]
-
+#     api_fields = [
+#             APIField('image'),
+#             APIField('carouselTitulo'),
+#             APIField('carouselDuracion'),
+#             APIField('carouselLink'),
+#             APIField('carouselButtonName'),
+#             ]
 class Faq(Orderable):
     page = ParentalKey(Inicio,on_delete=models.CASCADE , related_name = 'faqInicio')
     question = models.CharField( max_length=250,verbose_name="Pregunta")
