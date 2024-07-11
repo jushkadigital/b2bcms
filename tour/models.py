@@ -110,8 +110,8 @@ class Tour(Page):
         APIField('excluidos'),
         APIField('incluidos'),
         APIField('itinerario'),
-        APIField('galleryPaquete'),
-        APIField('tour')
+        APIField('galleryTour'),
+        APIField('tourDestino')
     ]
 
     page_description = "Informacion del Tour"
