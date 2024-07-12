@@ -38,8 +38,6 @@ class CustomValidateForm(WagtailAdminPageForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        print(cleaned_data)
-        print(self.formsets)
 
         for key,val in (self.formsets.items()):
             if cleaned_data.get("action-publish") and len(val.forms) == 0 and key != "comments":
@@ -62,8 +60,8 @@ class CustomValidateForm(WagtailAdminPageForm):
             raise forms.ValidationError({"itinerario": "Error debes poner el itinerario"})
         if cleaned_data.get("action-publish") and cleaned_data.get('tourDestino') is None:
             raise forms.ValidationError({"tourDestino": "Error debes poner a que destino pertenece"})
-        if cleaned_data.get("action-publish") and len(cleaned_data.get('categories')) == 0:
-            raise forms.ValidationError({"categories": "Error debes poner al menos una Categoria"})
+        # if cleaned_data.get("action-publish") and len(cleaned_data.get('categories')) == 0:
+        #     raise forms.ValidationError({"categories": "Error debes poner al menos una Categoria"})
         return cleaned_data
 
 
