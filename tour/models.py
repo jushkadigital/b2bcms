@@ -98,6 +98,8 @@ class Tour(Page):
         FieldPanel('categories'),
     ]
 
+    parent_page_types = ['home.Global']
+
     api_fields = [
         APIField('background'),
         APIField('featuredImage'),
