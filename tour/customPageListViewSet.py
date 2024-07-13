@@ -21,6 +21,56 @@ from wagtail.admin.forms.pages import ParentChooserForm
 from wagtail.admin.views.generic.base import WagtailAdminTemplateMixin
 from wagtail.models import Page
 
+from django import forms
+from django.conf import settings
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext
+
+from wagtail.admin import widgets
+from wagtail.models import Page, PageViewRestriction
+
+
+class MyParentChooserForm(forms.Form):
+    def __init__(self, child_page_type, user, default_parent_page=None, *args, **kwargs):
+        self.child_page_type = child_page_type
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+        initial_value = {'parent_page': default_parent_page} if default_parent_page else {}
+
+        self.fields["parent_page"] = forms.ModelChoiceField(
+            queryset=Page.objects.all(),
+            widget=widgets.AdminPageChooser(
+                target_models=self.child_page_type.allowed_parent_page_models(),
+                can_choose_root=True,
+                user_perms="add_subpage",
+            ),
+            initial=default_parent_page,
+            label=_("Parent page"),
+            help_text=_("The new page will be a child of this given parent page."),
+        )
+        if initial_value:
+            self.initial.update(initial_value)
+
+    def clean_parent_page(self):
+        parent_page = self.cleaned_data["parent_page"].specific_deferred
+        if not parent_page.permissions_for_user(self.user).can_add_subpage():
+            raise forms.ValidationError(
+                _('You do not have permission to create a page under "%(page_title)s".')
+                % {"page_title": parent_page.get_admin_display_title()}
+            )
+        if not self.child_page_type.can_create_at(parent_page):
+            raise forms.ValidationError(
+                _(
+                    'You cannot create a page of type "%(page_type)s" under "%(page_title)s".'
+                )
+                % {
+                    "page_type": self.child_page_type.get_verbose_name(),
+                    "page_title": parent_page.get_admin_display_title(),
+                }
+            )
+        return parent_page
+
 
 class MyChooseParentView(WagtailAdminTemplateMixin, FormView):
     template_name = "wagtailadmin/pages/choose_parent.html"
@@ -29,9 +79,10 @@ class MyChooseParentView(WagtailAdminTemplateMixin, FormView):
     page_title = gettext_lazy("Choose parent")
 
     def get_form(self):
+        pag = Page.objects.get(id=4)
         if self.request.method == "POST":
-            return ParentChooserForm(self.model, self.request.user, self.request.POST)
-        return ParentChooserForm(self.model, self.request.user)
+            return MyParentChooserForm(self.model, self.request.user,pag ,self.request.POST)
+        return MyParentChooserForm(self.model, self.request.user,pag)
 
     def get_index_url(self):
         if self.index_url_name:
@@ -73,8 +124,8 @@ class MyChooseParentView(WagtailAdminTemplateMixin, FormView):
         parent_id = quote(default_id)
         return redirect(
             "wagtailadmin_pages:add",
-            model_opts.app_label,
-            model_opts.model_name,
+        model_opts.app_label,
+        model_opts.model_name,
             parent_id,
         )
 
