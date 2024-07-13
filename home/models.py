@@ -86,17 +86,26 @@ class Home(Page):
     page_description = "Sitio cms wagtail"
 
 
+from wagtail.images.api.fields import ImageRenditionField
 
+class MyImageChooserBlock(ImageChooserBlock):
+    def get_api_representation(self, value, context=None):
+        if value:
+            return {
+                'id': value.id,
+                'url': ImageRenditionField('width-1000').to_representation(value)
+                }
+    
 
 class GalleryPaquetesCarousel(blocks.StructBlock):
-    photo = ImageChooserBlock(required=False)
+    photo = MyImageChooserBlock(required=False)
     carouselTitulo = blocks.CharBlock(max_length=75,help_text="Titulo")
     carouselDuracion = blocks.CharBlock(max_length=75,help_text="Titulo")
     carouselLink = blocks.CharBlock(max_length=200,help_text="Link")
     carouselButtonName = blocks.CharBlock(max_length=75,help_text="texto del Boton")
     
 class GalleryCarousel(blocks.StructBlock):
-    photo = ImageChooserBlock(required=False)
+    photo = MyImageChooserBlock(required=False)
     carouselTitulo = blocks.CharBlock(max_length=75,help_text="Titulo",default=" ")
     carouselButtonName = blocks.CharBlock(max_length=75,help_text="texto del Boton")
  
