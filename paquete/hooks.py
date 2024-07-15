@@ -2,9 +2,10 @@ from wagtail import hooks
 from wagtail.admin.viewsets.pages import PageListingViewSet
 
 from paquete.models import Paquete
+from paquete.customPageListViewSet import MyPageListingViewSet
 
 
-class PaqueteListingViewSet(PageListingViewSet):
+class PaqueteListingViewSet(MyPageListingViewSet):
     icon = "globe"
     menu_label = "Paquetes"
     add_to_admin_menu = True
