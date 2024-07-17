@@ -103,6 +103,7 @@ class GalleryPaquetesCarousel(blocks.StructBlock):
     carouselDuracion = blocks.CharBlock(max_length=75,help_text="Titulo")
     carouselLink = blocks.CharBlock(max_length=200,help_text="Link")
     carouselButtonName = blocks.CharBlock(max_length=75,help_text="texto del Boton")
+    miniPhotos = blocks.ListBlock(MyImageChooserBlock(required=False))
     
 class GalleryCarousel(blocks.StructBlock):
     photo = MyImageChooserBlock(required=False)
