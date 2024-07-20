@@ -236,6 +236,9 @@ class Nosotros(Page):
             APIField('valoresNosotros'),
             APIField('partnersNosotros'),
             APIField('certificadosNosotros'),
+            APIField('valoresSubtitle'),
+            APIField('partnersSubtitle'),
+            APIField('certificadosSubtitle'),
     ]
 
 class Estadisticas(Orderable):
