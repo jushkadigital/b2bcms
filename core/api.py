@@ -4,7 +4,7 @@ from wagtail.api.v2.views import BaseAPIViewSet, PagesAPIViewSet
 from wagtail.api.v2.router import WagtailAPIRouter
 from rest_framework.renderers import JSONRenderer
 from paquete.models import Paquete
-from home.models import Informacion, Destino, Inicio, Nosotros
+from home.models import Contacto, Informacion, Destino, Inicio, Nosotros
 from wagtail.images.api.v2.views import ImagesAPIViewSet
 
 from tour.models import Tour
@@ -38,6 +38,10 @@ class CustomNosotrosApiViewSet(PagesAPIViewSet):
     renderer_classes = [JSONRenderer]
     name = "nosotros"
     model = Nosotros
+class CustomContactoApiViewSet(PagesAPIViewSet):
+    renderer_classes = [JSONRenderer]
+    name = "contacto"
+    model = Contacto
 
 class CustomSnippetDestinoApiViewSet(BaseAPIViewSet):
     body_fields = BaseAPIViewSet.body_fields + ["name", "background"]
@@ -55,6 +59,7 @@ api_router.register_endpoint('pages/paquete', CustomPaqueteApiViewSet)
 api_router.register_endpoint('pages/tour', CustomTourApiViewSet)
 api_router.register_endpoint('pages/inicio', CustomInicioApiViewSet)
 api_router.register_endpoint('pages/nosotros', CustomNosotrosApiViewSet)
+api_router.register_endpoint('pages/contactar', CustomContactoApiViewSet)
 api_router.register_endpoint('images', ImagesAPIViewSet)
 api_router.register_endpoint('snippets/destino', CustomSnippetDestinoApiViewSet)
 api_router.register_endpoint('snippets/dataNumeros', CustomSnippetInformacionApiViewSet)
