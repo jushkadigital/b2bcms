@@ -132,7 +132,7 @@ class Inicio(Page):
     ]
     parent_page_types = ['home.Home']
     max_count_per_parent = 1
-    # subpage_types = ['paquete.IndexPaquete']
+    subpage_types = []
     api_fields = [
             APIField('galleryIni'),
             APIField('paqueteTitulo'),
@@ -200,6 +200,10 @@ class Nosotros(Page):
     numeroRuc = models.CharField(max_length=100 ,verbose_name= "Numero de Ruc") 
     nombreComercial = models.CharField(max_length=100 ,verbose_name= "Nombre Comercial") 
     certificadoAutorizacion = models.CharField(max_length=100 ,verbose_name= "Certificado de Autorizacion") 
+    valoresSubtitle = models.CharField(max_length=100 ,verbose_name= "Valores Subtitilo") 
+    partnersSubtitle = models.CharField(max_length=100 ,verbose_name= "Partners Subtitilo") 
+    certificadosSubtitle = models.CharField(max_length=100 ,verbose_name= "Certificados Subtitilo") 
+
     content_panels = Page.content_panels + [
         # TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
         # MultiFieldPanel([InlinePanel('galleryInicio')],heading="Carousel de Imagenes"),
@@ -211,8 +215,12 @@ class Nosotros(Page):
         MultiFieldPanel([InlinePanel('valoresNosotros')],heading="Valores de la Empresa"),
         MultiFieldPanel([InlinePanel('partnersNosotros')],heading="Partners"),
         MultiFieldPanel([InlinePanel('certificadosNosotros')],heading="Certificados"),
+        FieldPanel('valoresSubtitle'),
+        FieldPanel('partnersSubtitle'),
+        FieldPanel('certificadosSubtitle'),
     ]
     parent_page_types = ['home.Home']
+    subpage_types = []
     max_count_per_parent = 1
     api_fields = [
             APIField('background'),
@@ -284,6 +292,31 @@ class Certificados(Orderable):
     api_fields = [
             APIField('image'),
             ]
+
+class Contacto(Page):
+    background = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    )
+    titulo = models.CharField( max_length=100,verbose_name="Titulo")
+    formTitle = models.CharField( max_length=100,verbose_name="Titulo del Formulario de Contacto")
+    ubicacion = models.CharField( max_length=100,verbose_name="Direccion de la Empresa")
+    content_panels = Page.content_panels + [
+        MultiFieldPanel([FieldPanel('background'),FieldPanel('titulo')],heading="Banner"),
+        FieldPanel('formTitle'),
+        FieldPanel('ubicacion'),
+            ]
+    parent_page_types = ['home.Home']
+    subpage_types = []
+    max_count_per_parent = 1
+    api_fields = [
+            APIField('background'),
+            APIField('titulo'),
+            APIField('formTitle'),
+            APIField('ubicacion'),
+        ]
+
+
+
 
 class Global(Page):
     body = RichTextField(blank=True)
