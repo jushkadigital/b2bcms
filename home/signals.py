@@ -1,6 +1,6 @@
 
 from wagtail.models import ValidationError
-from wagtail.signals import page_published
+from wagtail.signals import page_published,page_unpublished
 from paquete.models import Paquete 
 from tour.models import Tour 
 import requests
@@ -31,3 +31,5 @@ def send_to_vercel_Tour(sender, **kwargs):
 # Register a receiver
 page_published.connect(send_to_vercel_Paquete,sender=Paquete)
 page_published.connect(send_to_vercel_Tour,sender=Tour)
+page_unpublished.connect(send_to_vercel_Paquete,sender=Paquete)
+page_unpublished.connect(send_to_vercel_Tour,sender=Paquete)
