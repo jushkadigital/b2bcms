@@ -165,13 +165,16 @@ class GalleryCarousel(Orderable):
 
 class Dias(Orderable):
     page = ParentalKey(Paquete, on_delete=models.CASCADE , related_name = 'dias')
+    titulo =models.CharField( max_length=100,verbose_name="Titulo del Dia",null=True,blank=True) 
     item = RichTextField(null=True,blank=True)
     def get_required_fields(cls):
         return ['item'] 
     panels = [
+            FieldPanel('titulo'),
             FieldPanel('item')
             ]
     api_fields = [
+            APIField('titulo'),
             APIField('item')
             ]
 
