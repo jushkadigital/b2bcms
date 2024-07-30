@@ -118,21 +118,28 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default':{
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'uzmduhmy_wagtailb2b',
+#         'USER': 'uzmduhmy_josue',
+#         'PASSWORD':'Admin123321Admin',
+#         'HOST': 'single-5922.banahosting.com',
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'charset': 'utf8mb4',  # <--- Use this
+#         }
+#         }
+# }
+
 DATABASES = {
-    # 'default': dj_database_url.config(default="mysql://uzmduhmy_josue:Admin123321Admin@single-5922.banahosting.com:3306/uzmduhmy_wagtailb2b", conn_max_age=600),
     'default':{
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'uzmduhmy_wagtailb2b',
-        'USER': 'uzmduhmy_josue',
-        'PASSWORD':'Admin123321Admin',
-        'HOST': 'single-5922.banahosting.com',
-        'PORT': '3306',
         'OPTIONS': {
-            'charset': 'utf8mb4',  # <--- Use this
-        }
+            'read_default_file': '/etc/mysql/my.cnf'
+            }
         }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
