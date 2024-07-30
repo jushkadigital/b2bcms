@@ -6,7 +6,7 @@ from wagtail.models import Orderable, Page, ParentalKey, StreamField
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, ObjectList, TabbedInterface, TitleFieldPanel
 from wagtail.images import get_image_model_string
 # Create your models here.
-from wagtail_cloudinary_image.abstract import AbstractRendition,AbstractCloudinaryImage,AbstractCloudinaryRendition
+from home.wagtailCloudinary.abstract import AbstractRendition,AbstractCloudinaryImage,AbstractCloudinaryRendition
 from wagtail.snippets.models import register_snippet
 from wagtail.admin.filters import WagtailFilterSet
 from wagtail.admin.ui.tables import UpdatedAtColumn

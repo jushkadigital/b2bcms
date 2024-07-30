@@ -9,7 +9,7 @@ from wagtail.images import get_image_model_string
 # Create your models here.
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
-from wagtail_cloudinary_image.abstract import AbstractRendition,AbstractCloudinaryImage,AbstractCloudinaryRendition
+from home.wagtailCloudinary.abstract import AbstractRendition,AbstractCloudinaryImage,AbstractCloudinaryRendition
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.admin.forms import WagtailAdminPageForm
 from wagtail.admin.viewsets.model import ModelViewSet
