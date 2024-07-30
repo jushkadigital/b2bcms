@@ -415,9 +415,6 @@ urllib3==2.2.1 ; python_version >= "3.10" and python_version < "4.0" \
 uvicorn==0.29.0 ; python_version >= "3.10" and python_version < "4.0" \
     --hash=sha256:2c2aac7ff4f4365c206fd773a39bf4ebd1047c238f8b8268ad996829323473de \
     --hash=sha256:6a69214c0b6a087462412670b3ef21224fa48cae0e452b5883e8e8bdfdd11dd0
-wagtail-cloudinary-image==0.0.3 ; python_version >= "3.10" and python_version < "4.0" \
-    --hash=sha256:0bdf406856c4817521f0e175b07c29a21709cc42f9e325818de273c4ce9fb303 \
-    --hash=sha256:77c66732d6e45d0362c09fa5939931696ebda2af66bb5dcb9505b0a7468cd1c2
 wagtail==6.1.1 ; python_version >= "3.10" and python_version < "4.0" \
     --hash=sha256:084f5911ddc742d4e7797cc40ea53ec6f696b06b91cd0857c1e28a944eceddda \
     --hash=sha256:d7b6e5e09970dd74efb63953c42a26fe6c25902e2a6dca4ad7e74ae00facb394
