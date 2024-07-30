@@ -3,6 +3,7 @@ from wagtail.models import ValidationError
 from wagtail.signals import page_published,page_unpublished
 from paquete.models import Paquete 
 from tour.models import Tour 
+from django.conf import settings
 import requests
 
 
@@ -12,7 +13,7 @@ def send_to_vercel_Paquete(sender, **kwargs):
     # print(sender.content_type())
     print(dir(sender))
     values = {"sender":sender.__name__,"lng":instance.get_default_locale().__str__() }
-    url = "https://www.perudestinoseguro.com/api/isr/"
+    url = f"{settings.MYURLFRONT}/api/isr/"
     response = requests.post(url,json=values)
 
     # url = 'https://api.vercel.com/v1/integrations/deploy/prj_7x5hHOUPrZhjTqQkCtvWoflxhW5W/9cv7iNWwRv'
@@ -23,7 +24,7 @@ def send_to_vercel_Tour(sender, **kwargs):
     # print(sender.content_type())
     print(dir(sender))
     values = {"sender":sender.__name__,"lng":instance.get_default_locale().__str__(),"destino":  instance.tourDestino.__str__().lower() }
-    url = "https://www.perudestinoseguro.com/api/isr/"
+    url = f"{settings.MYURLFRONT}/api/isr/"
     response = requests.post(url,json=values)
 
     # url = 'https://api.vercel.com/v1/integrations/deploy/prj_7x5hHOUPrZhjTqQkCtvWoflxhW5W/9cv7iNWwRv'

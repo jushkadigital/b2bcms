@@ -14,6 +14,10 @@ from pathlib import Path
 import os
 import dj_database_url
 
+
+# MYURLFRONT = "https://www.perudestinoseguro.com"
+MYURLFRONT = "http://192.168.128.128:3000"
+
 CLOUDINARY_STORAGE = {
     # 'CLOUD_NAME': 'denkdx0za',  # required
     'CLOUD_NAME': 'dhwwdtclq',  # required
@@ -26,7 +30,7 @@ CLOUDINARY_STORAGE = {
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
+# Quick-start development setllltings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
