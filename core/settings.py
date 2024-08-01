@@ -15,7 +15,7 @@ import os
 
 
 # MYURLFRONT = "https://www.perudestinoseguro.com"
-MYURLFRONT = "http://192.168.128.128:3000"
+MYURLFRONT = "www.vps.perudestinoseguro.com"
 
 CLOUDINARY_STORAGE = {
     # 'CLOUD_NAME': 'denkdx0za',  # required
@@ -39,7 +39,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 DEBUG = 'RENDER' not in os.environ
 
 # https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['www.vps.perudestinoseguro.com']
+ALLOWED_HOSTS = ['www.vps.perudestinoseguro.com','vps.perudestinoseguro.com']
 
 # RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 # if RENDER_EXTERNAL_HOSTNAME:
@@ -135,7 +135,8 @@ DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': '/etc/mysql/my.cnf'
+            'read_default_file': '/etc/mysql/my.cnf',
+            'charset': 'utf8mb4',  # <--- Use this
             }
         }
 }
