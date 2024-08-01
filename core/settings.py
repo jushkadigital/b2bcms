@@ -16,6 +16,7 @@ import os
 
 # MYURLFRONT = "https://www.perudestinoseguro.com"
 MYURLFRONT = "https://www.perudestinoseguro.com"
+USE_UNICODE = True
 
 CLOUDINARY_STORAGE = {
     # 'CLOUD_NAME': 'denkdx0za',  # required
@@ -164,7 +165,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
