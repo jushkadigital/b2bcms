@@ -15,7 +15,7 @@ import os
 
 
 # MYURLFRONT = "https://www.perudestinoseguro.com"
-MYURLFRONT = "www.vps.perudestinoseguro.com"
+MYURLFRONT = "https://www.vps.perudestinoseguro.com"
 
 CLOUDINARY_STORAGE = {
     # 'CLOUD_NAME': 'denkdx0za',  # required
