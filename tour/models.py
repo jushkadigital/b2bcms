@@ -38,6 +38,7 @@ class CustomValidateForm(WagtailAdminPageForm):
     def clean(self):
         cleaned_data = super().clean()
 
+        print(cleaned_data)
 
         for key,val in (self.formsets.items()):
             if cleaned_data.get("action-publish") and len(val.forms) == 0 and key != "comments":
