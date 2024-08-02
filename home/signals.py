@@ -11,7 +11,6 @@ import requests
 def send_to_vercel_Paquete(sender, **kwargs):
     instance = kwargs['instance']
     # print(sender.content_type())
-    print(dir(sender))
     values = {"sender":sender.__name__,"lng":instance.get_default_locale().__str__() }
     url = f"{settings.MYURLFRONT}/api/isr/"
     response = requests.post(url,json=values)
@@ -22,7 +21,6 @@ def send_to_vercel_Paquete(sender, **kwargs):
 def send_to_vercel_Tour(sender, **kwargs):
     instance = kwargs['instance']
     # print(sender.content_type())
-    print(dir(sender))
     values = {"sender":sender.__name__,"lng":instance.get_default_locale().__str__(),"destino":  instance.tourDestino.__str__().lower() }
     url = f"{settings.MYURLFRONT}/api/isr/"
     response = requests.post(url,json=values)
