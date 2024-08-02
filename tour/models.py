@@ -117,15 +117,17 @@ class Tour(Page):
     ]
 
     page_description = "Informacion del Tour"
+    def clean(self):
+        super().clean()
+        new_slug = slugify(self.title)
+        print(new_slug)
+        if self.slug != new_slug:
+            self.slug = new_slug
+
     def save(self, *args, **kwargs):
-        if not self.slug or self.title != self._loaded_title:
-            self.slug = slugify(self.title)
+        self.full_clean()
         super().save(*args, **kwargs)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._loaded_title = self.title
-
+    
 
 class ExcluidoItemPaquete(Orderable):
     page = ParentalKey(Tour, on_delete=models.CASCADE , related_name = 'excluidos')
