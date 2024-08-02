@@ -4,7 +4,7 @@ from wagtail.api.v2.filters import TaggableManager
 from wagtail.api.v2.views import APIField
 from wagtail.blocks import RichTextBlock
 from wagtail.fields import RichTextField
-from wagtail.models import BootstrapTranslatableMixin, Orderable, Page, ParentalKey, StreamField, TranslatableMixin,forms
+from wagtail.models import BootstrapTranslatableMixin, Orderable, Page, ParentalKey, StreamField, TranslatableMixin,forms,slugify
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, TitleFieldPanel, WagtailAdminPageForm
 from wagtail.images import get_image_model_string
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -18,7 +18,6 @@ from wagtail.admin.panels import PublishingPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.chooser import SnippetChosenMultipleView
 from wagtail.snippets.views.snippets import SnippetViewSet
-from django.utils.text import slugify
 
 
 dictRelativeNames = {

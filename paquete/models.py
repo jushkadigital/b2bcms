@@ -2,7 +2,7 @@ from django.db import models
 from wagtail import blocks
 from wagtail.admin.ui.tables import UpdatedAtColumn
 from wagtail.api.v2.views import APIField
-from wagtail.models import BootstrapTranslatableMixin, Orderable, Page, ParentalKey, StreamField, TranslatableMixin, ValidationError, forms
+from wagtail.models import BootstrapTranslatableMixin, Orderable, Page, ParentalKey, StreamField, TranslatableMixin, ValidationError, forms, slugify
 from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, ObjectList, TabbedInterface, TitleFieldPanel
 from wagtail.images import get_image_model_string
@@ -80,9 +80,7 @@ class Paquete(Page):
     def __str__(self):
         return self.title
 
-    def clean(self):
-        super().clean()
-                
+                    
     content_panels =Page.content_panels +  [
         # TitleFieldPanel('title', placeholder="Titulo del Paquete",help_text="El titulo sera incluido en la parte superior"),
         FieldPanel('featuredImage',help_text ="Dimensiones max: 425 x 585. px"),
@@ -111,6 +109,17 @@ class Paquete(Page):
     ]
 
     page_description = "Informacion del paquete"
+    def clean(self):
+        super().clean()
+        new_slug = slugify(self.title)
+        print(new_slug,'clean methon')
+        if self.slug != new_slug:
+            self.slug = new_slug
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
 
 
 class ExcluidoItemPaquete(Orderable):
