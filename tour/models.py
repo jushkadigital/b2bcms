@@ -18,6 +18,7 @@ from wagtail.admin.panels import PublishingPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.chooser import SnippetChosenMultipleView
 from wagtail.snippets.views.snippets import SnippetViewSet
+from django.utils.text import slugify
 
 
 dictRelativeNames = {
@@ -116,6 +117,14 @@ class Tour(Page):
     ]
 
     page_description = "Informacion del Tour"
+    def save(self, *args, **kwargs):
+        if not self.slug or self.title != self._loaded_title:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._loaded_title = self.title
 
 
 class ExcluidoItemPaquete(Orderable):
