@@ -118,6 +118,7 @@ class Tour(Page):
 
     page_description = "Informacion del Tour"
     def save(self, *args, **kwargs):
+        print(self.title)
         if not self.slug or self.title != self._loaded_title:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
