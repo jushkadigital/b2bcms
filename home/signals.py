@@ -10,6 +10,8 @@ import requests
 # Let everyone know when a new page is published
 def send_to_vercel_Paquete(sender, **kwargs):
     instance = kwargs['instance']
+
+    print('signal paquete')
     # print(sender.content_type())
     values = {"sender":sender.__name__,"lng":instance.get_default_locale().__str__() }
     url = f"{settings.MYURLFRONT}/api/isr/"
