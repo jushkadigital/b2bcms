@@ -90,7 +90,7 @@ class Paquete(Page):
         FieldRowPanel([FieldPanel('linkWord'),FieldPanel('linkPdf'),FieldPanel('linkFlyer')])],heading="Parte Superior"),
 
         MultiFieldPanel([
-        FieldRowPanel([MultiFieldPanel([FieldPanel('precio'),InlinePanel('excluidos', label="No Incluye"),InlinePanel('incluidos', label="Incluye") ]),
+        FieldRowPanel([MultiFieldPanel([FieldPanel('precio'),InlinePanel('incluidos', label="Incluye"),InlinePanel('excluidos', label="No Incluye") ]),
                        MultiFieldPanel([MultipleChooserPanel('galleryPaquete', label="Galeria de Imagenes",chooser_field_name="image"),InlinePanel('dias',label="Dias Itinerario")])])],heading="Parte Intermedia"),
     ]
 
