@@ -44,7 +44,7 @@ class CustomContactoApiViewSet(PagesAPIViewSet):
     model = Contacto
 
 class CustomSnippetDestinoApiViewSet(BaseAPIViewSet):
-    body_fields = BaseAPIViewSet.body_fields + ["name", "background"]
+    body_fields = BaseAPIViewSet.body_fields + ["name", "background","backgroundMobile"]
     renderer_classes = [JSONRenderer]
     name = "destinos"
     model = Destino
