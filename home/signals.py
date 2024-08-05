@@ -16,6 +16,7 @@ def send_to_vercel_Paquete(sender, **kwargs):
     values = {"sender":sender.__name__,"lng":instance.get_default_locale().__str__() }
     url = f"{settings.MYURLFRONT}/api/isr/"
     response = requests.post(url,json=values)
+    print(response)
 
     # url = 'https://api.vercel.com/v1/integrations/deploy/prj_7x5hHOUPrZhjTqQkCtvWoflxhW5W/9cv7iNWwRv'
 

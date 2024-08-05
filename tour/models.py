@@ -80,7 +80,7 @@ class Tour(Page):
     precio = models.DecimalField(max_digits=6, decimal_places=2,verbose_name="Precio",null=True,blank=True)
     linkWord = models.CharField( max_length=100,verbose_name="Link Word",null=True,blank=True)
     linkPdf = models.CharField( max_length=100,verbose_name="Link Pdf",null=True,blank=True)
-    linkFlyer = models.CharField( max_length=100,verbose_name="Link Flyer",null=True,blank=True)
+    # linkFlyer = models.CharField( max_length=100,verbose_name="Link Flyer",null=True,blank=True)
     itinerario = RichTextField(null=True,blank=True)
     base_form_class = CustomValidateForm
     def __str__(self):
@@ -90,7 +90,7 @@ class Tour(Page):
         FieldPanel('featuredImage'),
         MultiFieldPanel([
         FieldPanel('background'),
-        FieldRowPanel([FieldPanel('linkWord'),FieldPanel('linkPdf'),FieldPanel('linkFlyer')])],heading="Parte Superior"),
+        FieldRowPanel([FieldPanel('linkWord'),FieldPanel('linkPdf')])],heading="Parte Superior"),
         FieldPanel('itinerario'),
         MultiFieldPanel([
         FieldRowPanel([MultiFieldPanel([FieldPanel('precio'),InlinePanel('incluidos', label="Incluye") ,InlinePanel('excluidos', label="No Incluye")]),
@@ -106,7 +106,6 @@ class Tour(Page):
         APIField('featuredImage'),
         APIField('linkWord'),
         APIField('linkPdf'),
-        APIField('linkFlyer'),
         APIField('precio'),
         APIField('excluidos'),
         APIField('incluidos'),
