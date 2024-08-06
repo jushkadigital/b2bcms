@@ -58,6 +58,9 @@ class Destino(models.Model):
 
 class Informacion(models.Model):
     name =  models.CharField(max_length=255,verbose_name = "Nombre")
+    image = models.ForeignKey(
+        get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen Icono"
+    )
     numero =  models.CharField(max_length=255,verbose_name = "Numero Formato +x xxxxxxx o Texto de Boton ")
     desc =  models.CharField(max_length=255,verbose_name = "Descripcion",null=True,blank=True)
     link = models.CharField(max_length=300,verbose_name = "link")

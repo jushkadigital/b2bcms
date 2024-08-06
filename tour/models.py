@@ -87,9 +87,9 @@ class Tour(Page):
         return self.title
 
     content_panels =Page.content_panels +  [
-        FieldPanel('featuredImage'),
+        FieldPanel('featuredImage',help_text ="Dimensiones max: 425 x 585. px"),
         MultiFieldPanel([
-        FieldPanel('background'),
+        FieldPanel('background',help_text ="Dimensiones max: 1445 x 1030. px"),
         FieldRowPanel([FieldPanel('linkWord'),FieldPanel('linkPdf')])],heading="Parte Superior"),
         FieldPanel('itinerario'),
         MultiFieldPanel([
