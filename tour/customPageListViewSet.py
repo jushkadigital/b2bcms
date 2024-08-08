@@ -4,9 +4,7 @@ from wagtail.admin.views.pages.choose_parent import ChooseParentView
 from wagtail.admin.views.pages.listing import IndexView
 from wagtail.models import Page
 
-
 from wagtail.admin.viewsets.base import ViewSet
-
 
 from django.contrib.admin.utils import quote
 from django.shortcuts import redirect

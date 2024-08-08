@@ -37,9 +37,6 @@ class CustomValidateForm(WagtailAdminPageForm):
 
     def clean(self):
         cleaned_data = super().clean()
-
-        print(cleaned_data)
-
         for key,val in (self.formsets.items()):
             if cleaned_data.get("action-publish") and len(val.forms) == 0 and key != "comments":
                 raise forms.ValidationError(f"Error debe haber almenos uno en {dictRelativeNames[key]}")
@@ -53,18 +50,11 @@ class CustomValidateForm(WagtailAdminPageForm):
             raise forms.ValidationError({"linkWord": "Error debes poner el link"})
         if cleaned_data.get("action-publish") and cleaned_data.get('linkPdf') is None:
             raise forms.ValidationError({"linkPdf": "Error debes poner el link"})
-        if cleaned_data.get("action-publish") and cleaned_data.get('linkFlyer') is None:
-            raise forms.ValidationError({"linkFlyer": "Error debes poner el link"})
-        if cleaned_data.get("action-publish") and cleaned_data.get('linkFlyer') is None:
-            raise forms.ValidationError({"linkFlyer": "Error debes poner el link"})
         if cleaned_data.get("action-publish") and cleaned_data.get('itinerario') is None:
             raise forms.ValidationError({"itinerario": "Error debes poner el itinerario"})
         if cleaned_data.get("action-publish") and cleaned_data.get('tourDestino') is None:
             raise forms.ValidationError({"tourDestino": "Error debes poner a que destino pertenece"})
-        # if cleaned_data.get("action-publish") and len(cleaned_data.get('categories')) == 0:
-        #     raise forms.ValidationError({"categories": "Error debes poner al menos una Categoria"})
         return cleaned_data
-
 
 
 class Tour(Page):
@@ -80,7 +70,6 @@ class Tour(Page):
     precio = models.DecimalField(max_digits=6, decimal_places=2,verbose_name="Precio",null=True,blank=True)
     linkWord = models.CharField( max_length=100,verbose_name="Link Word",null=True,blank=True)
     linkPdf = models.CharField( max_length=100,verbose_name="Link Pdf",null=True,blank=True)
-    # linkFlyer = models.CharField( max_length=100,verbose_name="Link Flyer",null=True,blank=True)
     itinerario = RichTextField(null=True,blank=True)
     base_form_class = CustomValidateForm
     def __str__(self):
