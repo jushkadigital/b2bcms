@@ -303,11 +303,15 @@ class Contacto(Page):
     background = models.ForeignKey(
         get_image_model_string(), on_delete=models.CASCADE, related_name='+'
     )
+    backgroundMobile = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    )
     titulo = models.CharField( max_length=100,verbose_name="Titulo")
+    subTitulo = models.CharField( max_length=100,verbose_name="SubTitulo")
     formTitle = models.CharField( max_length=100,verbose_name="Titulo del Formulario de Contacto")
     ubicacion = models.CharField( max_length=100,verbose_name="Direccion de la Empresa")
     content_panels = Page.content_panels + [
-        MultiFieldPanel([FieldPanel('background'),FieldPanel('titulo')],heading="Banner"),
+        MultiFieldPanel([FieldPanel('background'),FieldPanel('backgroundMobile',help_text="background en Celulares"),FieldPanel('titulo'),FieldPanel('subTitulo')],heading="Banner"),
         FieldPanel('formTitle'),
         FieldPanel('ubicacion'),
             ]
@@ -316,6 +320,7 @@ class Contacto(Page):
     max_count_per_parent = 1
     api_fields = [
             APIField('background'),
+            APIField('backgroundMobile'),
             APIField('titulo'),
             APIField('formTitle'),
             APIField('ubicacion'),
