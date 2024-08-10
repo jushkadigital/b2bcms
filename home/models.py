@@ -321,6 +321,7 @@ class Contacto(Page):
     api_fields = [
             APIField('background'),
             APIField('backgroundMobile'),
+            APIField('subTitulo'),
             APIField('titulo'),
             APIField('formTitle'),
             APIField('ubicacion'),
