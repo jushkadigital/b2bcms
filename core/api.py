@@ -7,6 +7,7 @@ from paquete.models import Paquete
 from home.models import Contacto, Informacion, Destino, Inicio, Nosotros
 from wagtail.images.api.v2.views import ImagesAPIViewSet
 
+from salidasGrupales.models import SalidasGrupales
 from tour.models import Tour
 # Create the router. "wagtailapi" is the URL namespace
 
@@ -18,6 +19,15 @@ api_router = WagtailAPIRouter('wagtailapi')
 # is used in the URL of the endpoint
 # The second parameter is the endpoint class that handles the requests
 
+class CustomSalidasGrupalesApiViewSet(PagesAPIViewSet):
+    renderer_classes = [JSONRenderer]
+    name = "saildasGrupales"
+    model = SalidasGrupales
+
+class CustomTourApiViewSet(PagesAPIViewSet):
+    renderer_classes = [JSONRenderer]
+    name = "tour"
+    model = Tour 
 
 class CustomTourApiViewSet(PagesAPIViewSet):
     renderer_classes = [JSONRenderer]
@@ -38,6 +48,7 @@ class CustomNosotrosApiViewSet(PagesAPIViewSet):
     renderer_classes = [JSONRenderer]
     name = "nosotros"
     model = Nosotros
+
 class CustomContactoApiViewSet(PagesAPIViewSet):
     renderer_classes = [JSONRenderer]
     name = "contacto"
@@ -48,6 +59,7 @@ class CustomSnippetDestinoApiViewSet(BaseAPIViewSet):
     renderer_classes = [JSONRenderer]
     name = "destinos"
     model = Destino
+
 class CustomSnippetInformacionApiViewSet(BaseAPIViewSet):
     body_fields = BaseAPIViewSet.body_fields + ["name", "image","numero","desc","link"]
     renderer_classes = [JSONRenderer]
@@ -57,6 +69,7 @@ class CustomSnippetInformacionApiViewSet(BaseAPIViewSet):
 
 api_router.register_endpoint('pages/paquete', CustomPaqueteApiViewSet)
 api_router.register_endpoint('pages/tour', CustomTourApiViewSet)
+api_router.register_endpoint('pages/salidasGrupales', CustomSalidasGrupalesApiViewSet)
 api_router.register_endpoint('pages/inicio', CustomInicioApiViewSet)
 api_router.register_endpoint('pages/nosotros', CustomNosotrosApiViewSet)
 api_router.register_endpoint('pages/contactar', CustomContactoApiViewSet)

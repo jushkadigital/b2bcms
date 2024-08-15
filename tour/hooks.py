@@ -12,10 +12,6 @@ class TourListingViewSet(MyPageListingViewSet):
     model = Tour
     menu_order= 250
 
-
-
-
-
 tour_listing_viewset = TourListingViewSet("tours_pages")
 
 @hooks.register("register_admin_viewset")

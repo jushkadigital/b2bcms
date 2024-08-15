@@ -44,10 +44,13 @@ class CloudinaryRendition(AbstractCloudinaryRendition):
 class Destino(models.Model):
     name = models.CharField(max_length=255,verbose_name = "Nombre")
     background = models.ForeignKey(
-        get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo"
+        get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen"
     )
     backgroundMobile = models.ForeignKey(
-        get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo para Mobile"
+        get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen para Mobile"
+    )
+    backgroundDestinoPage = models.ForeignKey(
+        get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen para el Fondo de Destinos"
     )
 
     panels = [
@@ -377,7 +380,7 @@ class DestinoViewSet(SnippetViewSet):
     # or
     # list_filter = {"shirt_size": ["exact"], "name": ["icontains"]}
     edit_handler = TabbedInterface([
-        ObjectList([FieldPanel("name"),FieldPanel("background",help_text ="Dimensiones max: varian consultar Maqueta. px"),FieldPanel("backgroundMobile",help_text ="Dimensiones max: . px")], heading="Informacion"),
+        ObjectList([FieldPanel("name"),FieldPanel("background",help_text ="Dimensiones max: varian consultar Maqueta. px"),FieldPanel("backgroundMobile",help_text ="Dimensiones max: . px"),FieldPanel("backgroundDestinoPage",help_text ="Dimensiones max: . px")], heading="Informacion"),
     ])
 
 register_snippet(DestinoViewSet)
