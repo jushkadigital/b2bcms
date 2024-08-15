@@ -25,8 +25,7 @@ from rest_framework.fields import Field
 
 class LinkedPageSerializer(Field):
     def to_representation(self, page):
-        print(dir(page.featuredImage))
-        print((page.featuredImage.serializable_value()))
+        # print((page.featuredImage.serializable_value()))
         return {
                 "title": page.title,
                 "duration": page.duracion,
