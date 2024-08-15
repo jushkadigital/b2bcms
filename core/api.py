@@ -4,7 +4,7 @@ from wagtail.api.v2.views import BaseAPIViewSet, PagesAPIViewSet
 from wagtail.api.v2.router import WagtailAPIRouter
 from rest_framework.renderers import JSONRenderer
 from paquete.models import Paquete
-from home.models import Contacto, Informacion, Destino, Inicio, Nosotros
+from home.models import Contacto, Informacion, Destino, Inicio, Nosotros, SalidasPage
 from wagtail.images.api.v2.views import ImagesAPIViewSet
 
 from salidasGrupales.models import SalidasGrupales
@@ -54,6 +54,11 @@ class CustomContactoApiViewSet(PagesAPIViewSet):
     name = "contacto"
     model = Contacto
 
+class CustomSalidasPageApiViewSet(PagesAPIViewSet):
+    renderer_classes = [JSONRenderer]
+    name = "salidasPage"
+    model = SalidasPage
+
 class CustomSnippetDestinoApiViewSet(BaseAPIViewSet):
     body_fields = BaseAPIViewSet.body_fields + ["name", "background","backgroundMobile"]
     renderer_classes = [JSONRenderer]
@@ -73,6 +78,7 @@ api_router.register_endpoint('pages/salidasGrupales', CustomSalidasGrupalesApiVi
 api_router.register_endpoint('pages/inicio', CustomInicioApiViewSet)
 api_router.register_endpoint('pages/nosotros', CustomNosotrosApiViewSet)
 api_router.register_endpoint('pages/contactar', CustomContactoApiViewSet)
+api_router.register_endpoint('pages/salidasPage', CustomSalidasPageApiViewSet)
 api_router.register_endpoint('images', ImagesAPIViewSet)
 api_router.register_endpoint('snippets/destino', CustomSnippetDestinoApiViewSet)
 api_router.register_endpoint('snippets/dataNumeros', CustomSnippetInformacionApiViewSet)

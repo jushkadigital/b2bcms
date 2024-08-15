@@ -85,7 +85,7 @@ class Home(Page):
         FieldPanel('body'),
     ]
 
-    subpage_types = ['home.Inicio','home.Nosotros','home.Contacto','home.Global']
+    subpage_types = ['home.Inicio','home.Nosotros','home.Contacto','home.Global','home.SalidasPage']
     api_fields = [
     ]
 
@@ -330,8 +330,26 @@ class Contacto(Page):
             APIField('ubicacion'),
         ]
 
+class SalidasPage(Page):
+    background = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    )
+    content_panels = Page.content_panels + [
+        MultiFieldPanel([FieldPanel('background')],heading="Banner"),
+        ]
+    
+    
+    parent_page_types = ['home.Home']
+    
+    subpage_types = []
+    
+    max_count_per_parent = 1
+    api_fields = [
+        APIField('background'),
+        ]
 
 
+    
 
 class Global(Page):
     body = RichTextField(blank=True)
