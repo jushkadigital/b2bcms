@@ -60,7 +60,7 @@ class CustomSalidasPageApiViewSet(PagesAPIViewSet):
     model = SalidasPage
 
 class CustomSnippetDestinoApiViewSet(BaseAPIViewSet):
-    body_fields = BaseAPIViewSet.body_fields + ["name", "background","backgroundMobile"]
+    body_fields = BaseAPIViewSet.body_fields + ["name", "background","backgroundMobile","backgroundDestinoPage"]
     renderer_classes = [JSONRenderer]
     name = "destinos"
     model = Destino
