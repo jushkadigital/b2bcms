@@ -46,6 +46,8 @@ class CustomValidateForm(WagtailAdminPageForm):
             raise forms.ValidationError({"featuredImage": "Error debes poner el Thumbnail"})
         if cleaned_data.get("action-publish") and cleaned_data.get('precio') is None:
             raise forms.ValidationError({"precio": "Error debes poner el precio"})
+        if cleaned_data.get("action-publish") and cleaned_data.get('duracion') is None:
+            raise forms.ValidationError({"duracion": "Error debes poner la duracion"})
         if cleaned_data.get("action-publish") and cleaned_data.get('linkWord') is None:
             raise forms.ValidationError({"linkWord": "Error debes poner el link"})
         if cleaned_data.get("action-publish") and cleaned_data.get('linkPdf') is None:
@@ -68,6 +70,7 @@ class Tour(Page):
         get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Thumbnail"
     )
     precio = models.DecimalField(max_digits=6, decimal_places=2,verbose_name="Precio",null=True,blank=True)
+    duracion = models.CharField( max_length=12,verbose_name="Duracion del Tour, 0 o 1 = no aparecera",null=True,blank=True)
     linkWord = models.CharField( max_length=100,verbose_name="Link Word",null=True,blank=True)
     linkPdf = models.CharField( max_length=100,verbose_name="Link Pdf",null=True,blank=True)
     itinerario = RichTextField(null=True,blank=True)
@@ -82,7 +85,7 @@ class Tour(Page):
         FieldRowPanel([FieldPanel('linkWord'),FieldPanel('linkPdf')])],heading="Parte Superior"),
         FieldPanel('itinerario'),
         MultiFieldPanel([
-        FieldRowPanel([MultiFieldPanel([FieldPanel('precio'),InlinePanel('incluidos', label="Incluye") ,InlinePanel('excluidos', label="No Incluye")]),
+        FieldRowPanel([MultiFieldPanel([FieldPanel('precio'),FieldPanel('duracion'),InlinePanel('incluidos', label="Incluye") ,InlinePanel('excluidos', label="No Incluye")]),
                        MultiFieldPanel([MultipleChooserPanel('galleryTour', label="Galeria de Imagenes",chooser_field_name="image")])])],heading="Parte Intermedia"),
         FieldPanel('tourDestino'),
         FieldPanel('categories'),
@@ -96,6 +99,7 @@ class Tour(Page):
         APIField('linkWord'),
         APIField('linkPdf'),
         APIField('precio'),
+        APIField('duracion'),
         APIField('excluidos'),
         APIField('incluidos'),
         APIField('itinerario'),
