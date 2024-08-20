@@ -2,7 +2,7 @@ from django.db import models
 from wagtail.api.v2.views import APIField
 from wagtail.fields import RichTextField
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.models import Orderable, Page, ParentalKey, StreamField
+from wagtail.models import ClusterableModel, Orderable, Page, ParentalKey, StreamField, ValidationError
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, ObjectList, TabbedInterface, TitleFieldPanel
 from wagtail.images import get_image_model_string
 # Create your models here.
@@ -67,6 +67,28 @@ class Informacion(models.Model):
     numero =  models.CharField(max_length=255,verbose_name = "Numero Formato +x xxxxxxx o Texto de Boton ")
     desc =  models.CharField(max_length=255,verbose_name = "Descripcion",null=True,blank=True)
     link = models.CharField(max_length=300,verbose_name = "link")
+
+class DataGeneral(ClusterableModel):
+    razonSocial = models.CharField(max_length=255,verbose_name = "Razon Social") 
+    direccion = models.CharField(max_length=255,verbose_name = "Direccion") 
+    email = models.EmailField(max_length=100, verbose_name = "Correo Electronico",unique=True) 
+    whatsapp = models.CharField(max_length=255,verbose_name = "whatsapp") 
+    youtube = models.CharField(max_length=255,verbose_name = "Youtube") 
+    instagram = models.CharField(max_length=255,verbose_name = "Instagram") 
+    facebook = models.CharField(max_length=255,verbose_name = "Facebook") 
+    tiktok = models.CharField(max_length=255,verbose_name = "Tiktok") 
+    def save(self, *args, **kwargs):
+        # Asegurarse de que solo hay una instancia
+        if not self.pk and DataGeneral.objects.exists():
+            raise ValidationError('Solo puede existir una instancia de SiteSettings.')
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.razonSocial
+
+class TelDataGeneral(Orderable):
+    page = ParentalKey("home.DataGeneral", related_name="telefonos", on_delete=models.CASCADE)
+    numero = models.CharField(max_length=255,verbose_name = "Numero de Celular ")
 
 class ChildSerializer(serializers.ModelSerializer):
     class Meta:
@@ -419,3 +441,21 @@ class InformacionViewSet(SnippetViewSet):
         ])
 
 register_snippet(InformacionViewSet)
+
+
+class DataGeneralViewSet(SnippetViewSet):
+    model= DataGeneral
+    icon = "tag"
+    list_display = ["razonSocial",UpdatedAtColumn()]
+    list_per_page = 50
+    add_to_admin_menu = True
+    menu_order = 550
+    menu_label = "Data General"
+    inspect_view_enabled = True
+    admin_url_namespace = "dataGeneral_views"
+    base_url_path = "internal/dataGeneral"
+    edit_handler = TabbedInterface([
+        ObjectList([FieldPanel('razonSocial'),FieldPanel('direccion'),InlinePanel("telefonos"),FieldPanel("email"),FieldPanel("whatsapp"),FieldPanel("youtube"),FieldPanel("instagram"),FieldPanel("facebook"),FieldPanel("tiktok")],heading="Data")
+    ])
+
+register_snippet(DataGeneralViewSet)
