@@ -455,7 +455,7 @@ class DataGeneralViewSet(SnippetViewSet):
     admin_url_namespace = "dataGeneral_views"
     base_url_path = "internal/dataGeneral"
     edit_handler = TabbedInterface([
-        ObjectList([FieldPanel('razonSocial'),FieldPanel('direccion'),InlinePanel("telefonos"),FieldPanel("email"),FieldPanel("whatsapp"),FieldPanel("youtube"),FieldPanel("instagram"),FieldPanel("facebook"),FieldPanel("tiktok")],heading="Data")
+        ObjectList([FieldPanel('razonSocial'),FieldPanel('direccion'),InlinePanel("telefonos", label="Telefonos"),FieldPanel("email"),FieldPanel("whatsapp"),FieldPanel("youtube"),FieldPanel("instagram"),FieldPanel("facebook"),FieldPanel("tiktok")],heading="Data")
     ])
 
 register_snippet(DataGeneralViewSet)
