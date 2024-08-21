@@ -89,6 +89,9 @@ class DataGeneral(ClusterableModel):
 class TelDataGeneral(Orderable):
     page = ParentalKey("home.DataGeneral", related_name="telefonos", on_delete=models.CASCADE)
     numero = models.CharField(max_length=255,verbose_name = "Numero de Celular ")
+    api_fields = [
+        APIField("numero")
+            ]
 
 class ChildSerializer(serializers.ModelSerializer):
     class Meta:
