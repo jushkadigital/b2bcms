@@ -147,6 +147,14 @@ class CustomPaqueteApiViewSet(PagesAPIViewSet):
                         return self.model.objects.filter(
                         pk__in=self.get_base_queryset().exclude(pk=senderId).values_list("pk", flat=True)
                         ).order_by('?')[:1]
+                    elif algoParameter == "campaing":
+                        return self.model.objects.filter(
+                        pk__in=self.get_base_queryset().filter(paquete__isCampaing=True).values_list("pk", flat=True)
+                        )
+                    elif algoParameter == "nocampaing":
+                        return self.model.objects.filter(
+                        pk__in=self.get_base_queryset().filter(paquete__isCampaing=False).values_list("pk", flat=True)
+                        )
 
                     else:
                         return self.model.objects.filter(
