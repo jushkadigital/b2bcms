@@ -75,6 +75,7 @@ class Paquete(Page):
     linkWord = models.CharField( max_length=100,verbose_name="Link Word",null=True,blank=True)
     linkPdf = models.CharField( max_length=100,verbose_name="Link Pdf",null=True,blank=True)
     linkFlyer = models.CharField( max_length=100,verbose_name="Link Flyer",null=True,blank=True)
+    isCampaing = models.BooleanField(default = False,verbose_name= "Campaña")
     base_form_class = CustomValidateForm
 
     def __str__(self):
@@ -92,6 +93,7 @@ class Paquete(Page):
         MultiFieldPanel([
         FieldRowPanel([MultiFieldPanel([FieldPanel('precio'),InlinePanel('incluidos', label="Incluye"),InlinePanel('excluidos', label="No Incluye") ]),
                        MultiFieldPanel([MultipleChooserPanel('galleryPaquete', label="Galeria de Imagenes",chooser_field_name="image"),InlinePanel('dias',label="Dias Itinerario")])])],heading="Parte Intermedia"),
+        FieldPanel('isCampaing',help_text= "Es Campaña?")
     ]
 
     api_fields = [
@@ -106,6 +108,7 @@ class Paquete(Page):
         APIField('incluidos'),
         APIField('galleryPaquete'),
         APIField('dias'),
+        APIField('isCampaing'),
     ]
 
     page_description = "Informacion del paquete"
