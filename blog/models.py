@@ -113,12 +113,16 @@ class Blog(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel('categories'),
+        FieldPanel('background'),
+        FieldPanel('featuredImage'),
         FieldPanel('body'),
         FieldPanel('date'),
     ]
 
     api_fields = [
         APIField('body'),
+        APIField('background'),
+        APIField('featuredImage'),
         APIField('date'),
     ]
 
