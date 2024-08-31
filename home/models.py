@@ -3,9 +3,10 @@ from wagtail.api.v2.views import APIField
 from wagtail.fields import RichTextField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import ClusterableModel, Orderable, Page, ParentalKey, StreamField, ValidationError
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, ObjectList, TabbedInterface, TitleFieldPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultipleChooserPanel,MultiFieldPanel,FieldRowPanel, ObjectList, PageChooserPanel, TabbedInterface, TitleFieldPanel
 from wagtail.images import get_image_model_string
 # Create your models here.
+from blog.models import Blog
 from home.wagtailCloudinary.abstract import AbstractRendition,AbstractCloudinaryImage,AbstractCloudinaryRendition
 from wagtail.snippets.models import register_snippet
 from wagtail.admin.filters import WagtailFilterSet
@@ -354,6 +355,61 @@ class Contacto(Page):
             APIField('formTitle'),
             APIField('ubicacion'),
         ]
+class ArticuloPrincipalSerializer(Field):
+    def to_representation(self, page):
+        # print((page.featuredImage.serializable_value()))
+        return {
+                "id": page.id,
+                }
+
+
+class BlogPage(Page):
+    background = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    )
+    backgroundMobile = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    )
+    titulo = models.CharField( max_length=100,verbose_name="Titulo")
+    articuloPrincipal = models.ForeignKey(
+        Blog,  # Relación de ForeignKey a BlogPage
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='articuloPrincipal'  # Relación inversa
+    )
+    content_panels = Page.content_panels + [
+        PageChooserPanel('articuloPrincipal','blog.Blog'),
+        MultiFieldPanel([InlinePanel('articulosRecomendados')],heading="ArticulosRecomendados"),
+            ]
+    parent_page_types = ['home.Home']
+    subpage_types = []
+    max_count_per_parent = 1
+    api_fields = [
+            APIField('articuloPrincipal',serializer=ArticuloPrincipalSerializer()),
+            APIField('articulosRecomendados')
+        ]
+
+
+class ArticulosRecomendados(Orderable):
+    page = ParentalKey(BlogPage, on_delete=models.CASCADE , related_name = 'articulosRecomendados')
+    articuloPrincipal = models.ForeignKey(
+        Blog,  # Relación de ForeignKey a BlogPage
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='articuloPrincipalOrderable'  # Relación inversa
+    )
+    panels = [
+        PageChooserPanel('articuloPrincipal','blog.Blog'),
+    ]
+    api_fields = [
+            
+        APIField('articuloPrincipal',serializer=ArticuloPrincipalSerializer()),
+            ]
+
+
+
 
 class SalidasPage(Page):
     background = models.ForeignKey(
@@ -389,7 +445,6 @@ class Global(Page):
 # SNIPPETS WAGTAIL
 @register_snippet
 class TourCategory(models.Model):
-    """Blog category for a snippet."""
 
     name = models.CharField(max_length=255)
     panels = [
