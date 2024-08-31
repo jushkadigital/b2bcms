@@ -13,7 +13,7 @@ from wagtail.fields import RichTextField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.models import  Page, ParentalKey, StreamField, TranslatableMixin, ValidationError, forms, slugify
-
+from wagtail.images import get_image_model_string
 from django.db import models
 from wagtail.snippets.views.snippets import SnippetViewSet
 
@@ -92,9 +92,9 @@ class CustomValidateForm(WagtailAdminPageForm):
     def clean(self):
         cleaned_data = super().clean()
         if cleaned_data.get("action-publish") and cleaned_data.get('body') is None:
-            raise forms.ValidationError({"linkFlyer": "Error debes poner el link"})
+            raise forms.ValidationError({"body": "Debes poner contenido en el cuerpo"})
         if cleaned_data.get("action-publish") and cleaned_data.get('date') is None:
-            raise forms.ValidationError({"linkFlyer": "Error debes poner el link"})
+            raise forms.ValidationError({"date": "Debes poner uno fecha de Publicacion"})
         return cleaned_data
 
 
@@ -102,6 +102,12 @@ class Blog(Page):
     categories = models.ManyToManyField(CategoryBlog, through=CategoryBlogPage, blank=True,null=True)
     body = RichTextField(blank=True,null=True)
     date = models.DateField(verbose_name="Fecha para mostrar en el Post",blank=True,null=True)
+    background = models.ForeignKey(
+        get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo"
+    )
+    featuredImage = models.ForeignKey(
+        get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Thumbnail"
+    )
     parent_page_types = ['home.Global']
     base_form_class = CustomValidateForm
 
