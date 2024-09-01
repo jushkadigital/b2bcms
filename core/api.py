@@ -3,8 +3,9 @@
 from wagtail.api.v2.views import BaseAPIViewSet, PagesAPIViewSet
 from wagtail.api.v2.router import WagtailAPIRouter
 from rest_framework.renderers import JSONRenderer
+from blog.models import Blog
 from paquete.models import Paquete
-from home.models import Contacto, DataGeneral, Informacion, Destino, Inicio, Nosotros, SalidasPage
+from home.models import BlogPage, Contacto, DataGeneral, Informacion, Destino, Inicio, Nosotros, SalidasPage
 from wagtail.images.api.v2.views import ImagesAPIViewSet
 
 from salidasGrupales.models import SalidasGrupales
@@ -80,60 +81,26 @@ class CustomPaqueteApiViewSet(PagesAPIViewSet):
         AlgoRecomendationsFilterPaquete
             ]
 
-    # def get_queryset(self):
-    #     request = self.request
-
-    #     # Allow pages to be filtered to a specific type
-    #     try:
-    #         models_type = request.GET.get("type", None)
-    #         models = models_type and page_models_from_string(models_type) or []
-    #     except (LookupError, ValueError):
-    #         raise BadRequestError("type doesn't exist")
-
-    #     if not models:
-    #         print("here")
-    #         if self.model == Page:
-    #             return self.get_base_queryset()
-    #         else:
-    #             algoParameter = request.GET.get("sss",None)
-    #             if algoParameter is None:
-    #                 return self.model.objects.filter(
-    #                 pk__in=self.get_base_queryset().values_list("pk", flat=True)
-    #             )
-    #             else:
-    #                 try:
-    #                     senderId = request.GET.get("sender",None)
-    #                     senderId = int(senderId)
-    #                 except (LookupError, ValueError):
-    #                     raise BadRequestError("sender doesn't exist")
-    #                 if algoParameter == "basic":
-    #                     return self.model.objects.filter(
-    #                     pk__in=self.get_base_queryset().exclude(pk=senderId).values_list("pk", flat=True)
-    #                     ).order_by('?')[:1]
-    #                 elif algoParameter == "campaing":
-    #                     return self.model.objects.filter(
-    #                     pk__in=self.get_base_queryset().filter(paquete__isCampaing=True).values_list("pk", flat=True)
-    #                     )
-    #                 elif algoParameter == "nocampaing":
-    #                     return self.model.objects.filter(
-    #                     pk__in=self.get_base_queryset().filter(paquete__isCampaing=False).values_list("pk", flat=True)
-    #                     )
-
-    #                 else:
-    #                     return self.model.objects.filter(
-    #                     pk__in=self.get_base_queryset().values_list("pk", flat=True)
-    #                     )
-
-
-    #     elif len(models) == 1:
-    #         # If a single page type has been specified, swap out the Page-based queryset for one based on
-    #         # the specific page model so that we can filter on any custom APIFields defined on that model
-    #         return models[0].objects.filter(
-    #             pk__in=self.get_base_queryset().values_list("pk", flat=True)
-    #         )
-
-    #     else:  # len(models) > 1
-    #         return self.get_base_queryset().type(*models)
+class CustomBlogApiViewSet(PagesAPIViewSet):
+    renderer_classes = [JSONRenderer]
+    name = "blog"
+    model = Blog
+    known_query_parameters = BaseAPIViewSet.known_query_parameters.union(
+        [
+            "type",
+            "child_of",
+            "ancestor_of",
+            "descendant_of",
+            "translation_of",
+            "locale",
+            "site",
+            "sss",
+            "sender"
+        ]
+    )
+    filter_backends = PagesAPIViewSet.filter_backends + [
+        # AlgoRecomendationsFilterPaquete
+            ]
 
 
 class CustomInicioApiViewSet(PagesAPIViewSet):
@@ -145,6 +112,12 @@ class CustomNosotrosApiViewSet(PagesAPIViewSet):
     renderer_classes = [JSONRenderer]
     name = "nosotros"
     model = Nosotros
+
+class CustomBlogPageApiViewSet(PagesAPIViewSet):
+    renderer_classes = [JSONRenderer]
+    name = "blogPage"
+    model = BlogPage
+
 
 class CustomContactoApiViewSet(PagesAPIViewSet):
     renderer_classes = [JSONRenderer]
@@ -177,10 +150,12 @@ class CustomSnippetDataGeneralApiViewSet(BaseAPIViewSet):
 
 api_router.register_endpoint('pages/paquete', CustomPaqueteApiViewSet)
 api_router.register_endpoint('pages/tour', CustomTourApiViewSet)
+api_router.register_endpoint('pages/blog', CustomBlogApiViewSet)
 api_router.register_endpoint('pages/salidasGrupales', CustomSalidasGrupalesApiViewSet)
 api_router.register_endpoint('pages/inicio', CustomInicioApiViewSet)
 api_router.register_endpoint('pages/nosotros', CustomNosotrosApiViewSet)
 api_router.register_endpoint('pages/contactar', CustomContactoApiViewSet)
+api_router.register_endpoint('pages/blogPage', CustomBlogPageApiViewSet)
 api_router.register_endpoint('pages/salidasPage', CustomSalidasPageApiViewSet)
 api_router.register_endpoint('images', ImagesAPIViewSet)
 api_router.register_endpoint('snippets/destino', CustomSnippetDestinoApiViewSet)
