@@ -63,7 +63,7 @@ class FilterBlogPage(BaseFilterBackend):
             filterParameter = request.GET["sss"]
             print("queryModel")
             print(queryset.model)
-            if filterParameter == "articulosRec":
+            if filterParameter == "articulosrec":
                 return queryset.filter(pk__in=senderToAvoidList)
             elif filterParameter == "articulos":
                 return queryset.exclude(pk__in=senderToAvoidList)
