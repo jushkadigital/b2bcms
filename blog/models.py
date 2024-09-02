@@ -100,7 +100,9 @@ class CustomValidateForm(WagtailAdminPageForm):
 
 class Blog(Page):
     categories = models.ManyToManyField(CategoryBlog, through=CategoryBlogPage, blank=True,null=True)
-    body = RichTextField(blank=True,null=True)
+    body = RichTextField(blank=True,null=True,verbose_name="Cuerpo de texto, Post")
+    description = models.CharField(
+        max_length=300, verbose_name=('Descripcion'))
     date = models.DateField(verbose_name="Fecha para mostrar en el Post",blank=True,null=True)
     background = models.ForeignKey(
         get_image_model_string(),null=True,blank=True, on_delete=models.SET_NULL, related_name='+',verbose_name="Imagen de Fondo"
