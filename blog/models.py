@@ -117,11 +117,13 @@ class Blog(Page):
         FieldPanel('categories'),
         FieldPanel('background'),
         FieldPanel('featuredImage'),
+        FieldPanel('description'),
         FieldPanel('body'),
         FieldPanel('date'),
     ]
 
     api_fields = [
+        APIField('description'),
         APIField('body'),
         APIField('background'),
         APIField('featuredImage'),
