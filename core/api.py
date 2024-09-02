@@ -16,7 +16,7 @@ from wagtail.api.v2.utils import (
 )
 from wagtail.models import Page 
 from wagtail.search.query import Phrase
-from .filterBackendsApi import AlgoRecomendationsFilterTour,AlgoRecomendationsFilterPaquete
+from .filterBackendsApi import AlgoRecomendationsFilterTour,AlgoRecomendationsFilterPaquete,FilterBlogPage
 
 # Create the router. "wagtailapi" is the URL namespace
 
@@ -99,7 +99,7 @@ class CustomBlogApiViewSet(PagesAPIViewSet):
         ]
     )
     filter_backends = PagesAPIViewSet.filter_backends + [
-        # AlgoRecomendationsFilterPaquete
+            FilterBlogPage
             ]
 
 

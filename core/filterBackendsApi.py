@@ -48,3 +48,21 @@ class AlgoRecomendationsFilterPaquete(BaseFilterBackend):
             elif algoParameter == "nocampaing":
                 return queryset.filter(**{"isCampaing":False})
         return queryset
+
+class FilterBlogPage(BaseFilterBackend):
+    """
+    Implements the ?sss filter which apply a simples filters .
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        if "sss" in request.GET:
+            try:
+                senderToAvoidList = (request.GET["sender"].split(","))
+            except:
+                raise BadRequestError("sender cant be a Null or String must be a number") 
+            filterParameter = request.GET["sss"]
+            print("queryModel")
+            print(queryset.model)
+            if filterParameter == "articulosRec":
+                return queryset.exclude(pk__in=senderToAvoidList)
+        return queryset
