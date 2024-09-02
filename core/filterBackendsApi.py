@@ -64,5 +64,7 @@ class FilterBlogPage(BaseFilterBackend):
             print("queryModel")
             print(queryset.model)
             if filterParameter == "articulosRec":
+                return queryset.filter(pk__in=senderToAvoidList)
+            elif filterParameter == "articulos":
                 return queryset.exclude(pk__in=senderToAvoidList)
         return queryset
