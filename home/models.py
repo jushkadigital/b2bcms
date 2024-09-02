@@ -111,7 +111,7 @@ class Home(Page):
         FieldPanel('body'),
     ]
 
-    subpage_types = ['home.Inicio','home.Nosotros','home.Contacto','home.Global','home.SalidasPage']
+    subpage_types = ['home.Inicio','home.Nosotros','home.Contacto','home.Global','home.SalidasPage','home.BlogPage']
     api_fields = [
     ]
 
