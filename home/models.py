@@ -380,6 +380,8 @@ class BlogPage(Page):
     )
     content_panels = Page.content_panels + [
         PageChooserPanel('articuloPrincipal','blog.Blog'),
+        FieldPanel('background'),
+        FieldPanel('backgroundMobile'),
         MultiFieldPanel([InlinePanel('articulosRecomendados')],heading="ArticulosRecomendados"),
             ]
     parent_page_types = ['home.Home']
@@ -387,6 +389,8 @@ class BlogPage(Page):
     max_count_per_parent = 1
     api_fields = [
             APIField('articuloPrincipal',serializer=ArticuloPrincipalSerializer()),
+            APIField('background'),
+            APIField('backgroundMobile'),
             APIField('articulosRecomendados')
         ]
 
