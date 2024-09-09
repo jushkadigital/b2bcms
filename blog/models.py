@@ -129,5 +129,16 @@ class Blog(Page):
         APIField('featuredImage'),
         APIField('date'),
     ]
+    def clean(self):
+        super().clean()
+        new_slug = slugify(self.title)
+        print(new_slug)
+        if self.slug != new_slug:
+            self.slug = new_slug
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
 
 
