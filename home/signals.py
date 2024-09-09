@@ -1,6 +1,8 @@
 
 from wagtail.models import ValidationError
 from wagtail.signals import page_published,page_unpublished
+from blog.models import Blog
+from home.models import Inicio, Nosotros
 from paquete.models import Paquete 
 from salidasGrupales.models import SalidasGrupales
 from tour.models import Tour 
@@ -27,6 +29,13 @@ def send_to_vercel_Tour(sender, **kwargs):
     url = f"{settings.MYURLFRONT}/api/isr/"
     response = requests.post(url,json=values)
 
+def send_to_vercel_Blog(sender, **kwargs):
+    instance = kwargs['instance']
+    # print(sender.content_type())
+    values = {"sender":sender.__name__,"lng":instance.get_default_locale().__str__() }
+    url = f"{settings.MYURLFRONT}/api/isr/"
+    response = requests.post(url,json=values)
+
 def send_to_vercel_Salidas(sender, **kwargs):
     instance = kwargs['instance']
     # print(sender.content_type())
@@ -34,11 +43,31 @@ def send_to_vercel_Salidas(sender, **kwargs):
     url = f"{settings.MYURLFRONT}/api/isr/"
     response = requests.post(url,json=values)
 
+def send_to_vercel_Inicio(sender, **kwargs):
+    instance = kwargs['instance']
+    # print(sender.content_type())
+    values = {"sender":sender.__name__,"lng":instance.get_default_locale().__str__() }
+    url = f"{settings.MYURLFRONT}/api/isr/"
+    response = requests.post(url,json=values)
+
+def send_to_vercel_Nosotros(sender, **kwargs):
+    instance = kwargs['instance']
+    # print(sender.content_type())
+    values = {"sender":sender.__name__,"lng":instance.get_default_locale().__str__() }
+    url = f"{settings.MYURLFRONT}/api/isr/"
+    response = requests.post(url,json=values)
 
 # Register a receiver
 page_published.connect(send_to_vercel_Paquete,sender=Paquete)
 page_published.connect(send_to_vercel_Tour,sender=Tour)
+page_published.connect(send_to_vercel_Blog,sender=Blog)
 page_published.connect(send_to_vercel_Salidas,sender=SalidasGrupales)
+page_published.connect(send_to_vercel_Inicio,sender=Inicio)
+page_published.connect(send_to_vercel_Nosotros,sender=Nosotros)
+
 page_unpublished.connect(send_to_vercel_Paquete,sender=Paquete)
 page_unpublished.connect(send_to_vercel_Tour,sender=Tour)
+page_unpublished.connect(send_to_vercel_Blog,sender=Blog)
 page_unpublished.connect(send_to_vercel_Salidas,sender=SalidasGrupales)
+page_unpublished.connect(send_to_vercel_Inicio,sender=Inicio)
+page_unpublished.connect(send_to_vercel_Nosotros,sender=Nosotros)
