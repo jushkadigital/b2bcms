@@ -228,6 +228,15 @@ class Nosotros(Page):
     imageParrafo = models.ForeignKey(
         get_image_model_string(), on_delete=models.CASCADE, related_name='+'
     ) 
+    puv = models.CharField(max_length=300 ,verbose_name= "Promesa Unica de Valor") 
+    puvName = models.CharField(max_length=100 ,verbose_name= "Promesa Unica de Valor Nombre") 
+    puvImage = models.ForeignKey(
+        get_image_model_string(), on_delete=models.CASCADE, related_name='+'
+    )
+    midMessageSubtitle =  models.CharField(max_length=200 ,verbose_name= "Mensaje Intermedio Subtitulo") 
+    midMessage =  models.CharField(max_length=300 ,verbose_name= "Mensaje Intermedio") 
+    mision = models.CharField(max_length=400 ,verbose_name= "Mision") 
+    vision = models.CharField(max_length=400 ,verbose_name= "Vision") 
     razonSocial = models.CharField(max_length=100 ,verbose_name= "Razon Social") 
     numeroRuc = models.CharField(max_length=100 ,verbose_name= "Numero de Ruc") 
     nombreComercial = models.CharField(max_length=100 ,verbose_name= "Nombre Comercial") 
@@ -242,6 +251,9 @@ class Nosotros(Page):
         MultiFieldPanel([FieldPanel('background'),FieldPanel('titulo')],heading="Banner"),
         MultiFieldPanel([
         FieldRowPanel([MultiFieldPanel([FieldPanel('subTitulo'),FieldPanel('parrafo')],heading="Parrafo"),FieldPanel('imageParrafo')])],heading="Parrafo e Informacion"),
+        MultiFieldPanel([FieldPanel('puv'),FieldPanel('puvName'),FieldPanel('puvImage')],heading="Promesa Unica de Valor"),
+        MultiFieldPanel([FieldPanel('midMessageSubtitle'),FieldPanel('midMessage')],heading="Mensaje Intermedio"),
+        MultiFieldPanel([FieldPanel('mision'),FieldPanel('vision')],heading="Mision Vision"),
         MultiFieldPanel([FieldRowPanel([FieldPanel('razonSocial'),FieldPanel('numeroRuc')]),FieldRowPanel([FieldPanel('nombreComercial'),FieldPanel('certificadoAutorizacion')])],heading="Informacion Legal"),
         MultiFieldPanel([InlinePanel('estadisticasNosotros')],heading="Estadisticas de la Empresa"),
         MultiFieldPanel([InlinePanel('valoresNosotros')],heading="Valores de la Empresa"),
@@ -260,6 +272,13 @@ class Nosotros(Page):
             APIField('subTitulo'),
             APIField('parrafo'),
             APIField('imageParrafo'),
+            APIField('puv'),
+            APIField('puvName'),
+            APIField('puvImage'),
+            APIField('midMessage'),
+            APIField('midMessageSubtitle'),
+            APIField('vision'),
+            APIField('mision'),
             APIField('razonSocial'),
             APIField('numeroRuc'),
             APIField('nombreComercial'),
