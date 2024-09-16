@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('home', '0001_initial'),
         ('wagtailcore', '0093_uploadedfile'),
     ]
 

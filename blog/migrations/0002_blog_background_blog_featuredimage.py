@@ -8,7 +8,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('blog', '0001_initial'),
-        ('home', '0012_blogpage_articulosrecomendados'),
     ]
 
     operations = [
