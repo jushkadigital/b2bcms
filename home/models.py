@@ -229,7 +229,7 @@ class Nosotros(Page):
         get_image_model_string(), on_delete=models.CASCADE, related_name='+'
     ) 
     puv = models.CharField(max_length=350 ,verbose_name= "Promesa Unica de Valor") 
-    puvName = models.CharField(max_length=100 ,verbose_name= "Promesa Unica de Valor Nombre") 
+    puvName = models.CharField(max_length=150 ,verbose_name= "Promesa Unica de Valor Nombre") 
     puvImage = models.ForeignKey(
         get_image_model_string(), on_delete=models.CASCADE, related_name='+'
     )
