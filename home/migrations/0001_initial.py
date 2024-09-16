@@ -222,7 +222,6 @@ class Migration(migrations.Migration):
                 ('certificadosSubtitle', models.CharField(max_length=100, verbose_name='Certificados Subtitilo')),
                 ('background', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='home.cloudinaryimage')),
                 ('imageParrafo', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='home.cloudinaryimage')),
-                ('puvImage', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='home.cloudinaryimage')),
             ],
             options={
                 'abstract': False,
