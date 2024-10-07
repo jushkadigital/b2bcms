@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 
+from django_filters.filters import timedelta
+
 
 # MYURLFRONT = "https://www.perudestinoseguro.com"
 MYURLFRONT = "https://www.perudestinoseguro.com"
@@ -56,13 +58,12 @@ INSTALLED_APPS = [
     'salidasGrupales',
     'blog',
     'wagtail.locales',
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     "wagtail.contrib.simple_translation",
@@ -146,19 +147,11 @@ DATABASES = {
         }
 }
 
-# DATABASES = {
-#     'default':{
-#         'ENGINE': 'django.db.backends.mysql',
-#         'OPTIONS': {
-#             'read_default_file': '/etc/mysql/my.cnf',
-#             'charset': 'utf8mb4',  # <--- Use this
-#             'use_unicode': True,
-#             }
-#         }
-# }
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -174,6 +167,16 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+
+
+
+# SIMPLE_JWT = {
+#         'AUTH_HEADERS_TYPES': ('JWT',),
+#         'ACCESS_TOKEN_LIFETIME': timedelta(hours=3)
+#         }
+
 
 
 # Internationalization

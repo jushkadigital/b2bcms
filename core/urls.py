@@ -26,7 +26,7 @@ from .api import api_router
 
 
 urlpatterns = [
-        path('api/v2/', api_router.urls),
+    path('api/v2/', api_router.urls),
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('pages/', include(wagtail_urls)),
