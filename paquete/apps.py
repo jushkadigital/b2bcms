@@ -1,8 +1,0 @@
-from django.apps import AppConfig
-
-
-class PaqueteConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'paquete'
-    def ready(self):
-        import paquete.hooks

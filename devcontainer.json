@@ -1,0 +1,6 @@
+{
+  "name": "TEST MY DOCKER CONTAINER",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "lunarvim",
+  "workspaceFolder": "/home/lunaruser/project"
+}

@@ -1,1 +1,13 @@
+# Entornos virtuales
+.venv/
 venv/
+env/
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+# Archivos de configuración del editor
+.vscode/
+.idea/
+# Otros
+*.log
+pyrightconfig.json
