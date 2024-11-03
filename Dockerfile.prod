@@ -35,7 +35,7 @@ ENV PYTHONUNBUFFERED 1
 # install system dependencies
 RUN apt-get update && apt-get install -y netcat
 
-COPY ./src .
+COPY ./src ./src
 
 COPY manage.py .
 
