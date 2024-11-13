@@ -18,8 +18,9 @@ services:
       - db
     env_file:
       - ./.env.dev
-    ports:
-      - "8000:8000"
+    expose:
+      # - "8000:8000"
+      - 8000
     volumes:
       - /home/chamba/Desktop/py/b2bcms/src:/app/src
       - shared-volume:/app/.venv
@@ -40,6 +41,14 @@ services:
       - shared-volume:/home/lunaruser/project/.venv
     tty: true
     stdin_open: true
+  nginx:
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - 1337:80
+    depends_on:
+      - dev
 volumes:
   postgres_data:
   shared-volume:
