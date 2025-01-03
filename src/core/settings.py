@@ -51,7 +51,15 @@ DEBUG = bool(os.environ.get("DEBUG",default=0))
 # https://docs.djangoproject.com/en/3.0/ref/settings/#allowed-hosts
 # ALLOWED_HOSTS = ['www.vps.perudestinoseguro.com','vps.perudestinoseguro.com','localhost']
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+
+ALLOWED_HOSTS = ["*"]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'http://localhost:1337',
+    'https://vps.perudestinoseguro.com',
+    'http://XX.XX.XX.XX'
+]
 
 # RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 # if RENDER_EXTERNAL_HOSTNAME:

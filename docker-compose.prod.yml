@@ -1,14 +1,14 @@
 services:
   db:
     image: postgres:16
-    container_name: postgres_db
+    # container_name: postgres_db
     environment:
-      - POSTGRES_USER=josue
-      - POSTGRES_PASSWORD=password 
-      - POSTGRES_DB=wagtailDevelopment
+      - POSTGRES_USER=admin 
+      - POSTGRES_PASSWORD=admin 
+      - POSTGRES_DB=admin
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  prod:
+  produ:
     build:
       context: .
       dockerfile: Dockerfile.prod
@@ -20,14 +20,7 @@ services:
       - ./.env.prod
     expose:
       - 8000
-  # nginx:
-  #   build: 
-  #     context: ./nginx
-  #     dockerfile: Dockerfile.prod
-  #   ports:
-  #     - 1138:80
-  #   depends_on:
-  #     - prod
+
 volumes:
   postgres_data:
     
