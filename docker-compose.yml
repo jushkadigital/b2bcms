@@ -32,6 +32,7 @@ services:
       args:
         gid: ${GROUPID}
         uid: ${USERID}
+    image: my-lunarvim-image
     container_name: lunarvim_container # Nombre del contenedor
     depends_on:
       - dev
